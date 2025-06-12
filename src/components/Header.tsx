@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { User, Film } from "lucide-react";
+import { Link } from "react-router-dom";
 import AuthModal from './AuthModal';
 
 const Header = () => {
@@ -14,21 +15,21 @@ const Header = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center space-x-3 animate-fade-in">
+            <Link to="/" className="flex items-center space-x-3 animate-fade-in">
               <Film className="h-8 w-8 text-moviefy-yellow" />
               <h1 className="text-2xl font-bold text-white">
                 Movie<span className="text-moviefy-yellow">fy</span>
               </h1>
-            </div>
+            </Link>
 
             {/* Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
+              <Link to="/" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
                 Discover
-              </a>
-              <a href="#" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
+              </Link>
+              <Link to="/trending" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
                 Trending
-              </a>
+              </Link>
               {isLoggedIn && (
                 <a href="#" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
                   My Lists

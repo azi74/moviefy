@@ -188,135 +188,108 @@ const ChatInterface = () => {
 
   return (
     <>
-      <div className="flex flex-col h-full max-w-6xl mx-auto">
+      <div className="flex flex-col h-full max-w-4xl mx-auto">
         {/* Messages Container */}
         <div className="flex-1 overflow-y-auto p-6">
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="space-y-6">
             {/* Chat Messages */}
-            <div className="lg:col-span-2 space-y-6">
-              {messages.map((message, index) => (
-                <div 
-                  key={message.id}
-                  className={`flex items-start space-x-4 animate-slide-up`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  {/* Avatar */}
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-                    message.sender === 'bot' 
-                      ? 'bg-moviefy-yellow text-moviefy-black' 
-                      : 'bg-moviefy-gray-dark text-white'
-                  }`}>
-                    {message.sender === 'bot' ? <Bot className="h-5 w-5" /> : <User className="h-5 w-5" />}
-                  </div>
-
-                  {/* Message */}
-                  <div className={`flex-1 p-4 rounded-2xl ${
-                    message.sender === 'bot' 
-                      ? 'bg-moviefy-gray-dark text-white' 
-                      : 'bg-moviefy-yellow text-moviefy-black'
-                  }`}>
-                    <p className="leading-relaxed">{message.text}</p>
-                  </div>
+            {messages.map((message, index) => (
+              <div 
+                key={message.id}
+                className={`flex items-start space-x-4 animate-slide-up`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {/* Avatar */}
+                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
+                  message.sender === 'bot' 
+                    ? 'bg-moviefy-yellow text-moviefy-black' 
+                    : 'bg-moviefy-gray-dark text-white'
+                }`}>
+                  {message.sender === 'bot' ? <Bot className="h-5 w-5" /> : <User className="h-5 w-5" />}
                 </div>
-              ))}
 
-              {/* Actor Selection Cards */}
-              {currentStepData?.type === 'actors' && (
-                <div className="animate-fade-in">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
-                    {mockActors.map((actor, index) => (
-                      <div 
-                        key={actor.name}
-                        style={{ animationDelay: `${index * 0.1}s` }}
-                        className="animate-slide-up"
-                      >
-                        <ActorCard
-                          name={actor.name}
-                          image={actor.image}
-                          rating={actor.rating}
-                          isSelected={selectedActors.includes(actor.name)}
-                          onClick={() => handleActorSelect(actor.name)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  {selectedActors.length > 0 && (
-                    <div className="flex justify-center mt-6">
-                      <Button 
-                        onClick={handleNextStep}
-                        className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-full px-8 hover-glow"
-                      >
-                        Continue ({selectedActors.length} selected)
-                      </Button>
-                    </div>
-                  )}
+                {/* Message */}
+                <div className={`flex-1 p-4 rounded-2xl ${
+                  message.sender === 'bot' 
+                    ? 'bg-moviefy-gray-dark text-white' 
+                    : 'bg-moviefy-yellow text-moviefy-black'
+                }`}>
+                  <p className="leading-relaxed">{message.text}</p>
                 </div>
-              )}
+              </div>
+            ))}
 
-              {/* Genre Selection */}
-              {currentStepData?.type === 'genres' && (
-                <div className="animate-fade-in">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-                    {currentStepData.options?.map((genre, index) => (
-                      <button
-                        key={genre}
-                        onClick={() => handleGenreSelect(genre)}
-                        style={{ animationDelay: `${index * 0.05}s` }}
-                        className={`p-4 rounded-xl transition-all duration-200 animate-slide-up ${
-                          selectedGenres.includes(genre)
-                            ? 'bg-moviefy-yellow text-moviefy-black'
-                            : 'bg-moviefy-gray-dark text-white hover:bg-moviefy-gray-medium'
-                        }`}
-                      >
-                        {genre}
-                      </button>
-                    ))}
-                  </div>
-                  {selectedGenres.length > 0 && (
-                    <div className="flex justify-center mt-6">
-                      <Button 
-                        onClick={handleNextStep}
-                        className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-full px-8 hover-glow"
-                      >
-                        Get My Recommendations ({selectedGenres.length} selected)
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Movie Recommendations Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-6">
-                <h3 className="text-xl font-semibold text-white mb-4">Trending Movies</h3>
-                <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
-                  {mockMovies.map((movie, index) => (
-                    <div
-                      key={movie.title}
+            {/* Actor Selection Cards */}
+            {currentStepData?.type === 'actors' && (
+              <div className="animate-fade-in">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+                  {mockActors.map((actor, index) => (
+                    <div 
+                      key={actor.name}
                       style={{ animationDelay: `${index * 0.1}s` }}
-                      className="animate-fade-in"
+                      className="animate-slide-up"
                     >
-                      <MovieCard
-                        title={movie.title}
-                        image={movie.image}
-                        year={movie.year}
-                        genre={movie.genre.join(', ')}
-                        rating={movie.rating}
-                        onClick={() => handleMovieClick(movie)}
+                      <ActorCard
+                        name={actor.name}
+                        image={actor.image}
+                        rating={actor.rating}
+                        isSelected={selectedActors.includes(actor.name)}
+                        onClick={() => handleActorSelect(actor.name)}
                       />
                     </div>
                   ))}
                 </div>
+                {selectedActors.length > 0 && (
+                  <div className="flex justify-center mt-6">
+                    <Button 
+                      onClick={handleNextStep}
+                      className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-full px-8 hover-glow"
+                    >
+                      Continue ({selectedActors.length} selected)
+                    </Button>
+                  </div>
+                )}
               </div>
-            </div>
+            )}
+
+            {/* Genre Selection */}
+            {currentStepData?.type === 'genres' && (
+              <div className="animate-fade-in">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+                  {currentStepData.options?.map((genre, index) => (
+                    <button
+                      key={genre}
+                      onClick={() => handleGenreSelect(genre)}
+                      style={{ animationDelay: `${index * 0.05}s` }}
+                      className={`p-4 rounded-xl transition-all duration-200 animate-slide-up ${
+                        selectedGenres.includes(genre)
+                          ? 'bg-moviefy-yellow text-moviefy-black'
+                          : 'bg-moviefy-gray-dark text-white hover:bg-moviefy-gray-medium'
+                      }`}
+                    >
+                      {genre}
+                    </button>
+                  ))}
+                </div>
+                {selectedGenres.length > 0 && (
+                  <div className="flex justify-center mt-6">
+                    <Button 
+                      onClick={handleNextStep}
+                      className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-full px-8 hover-glow"
+                    >
+                      Get My Recommendations ({selectedGenres.length} selected)
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Input Area */}
         {currentStepData?.type === 'text' && (
           <div className="p-6 border-t border-moviefy-gray-dark">
-            <div className="flex space-x-4 max-w-4xl">
+            <div className="flex space-x-4">
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
@@ -333,6 +306,29 @@ const ChatInterface = () => {
             </div>
           </div>
         )}
+
+        {/* Movie Recommendations Row */}
+        <div className="p-6 border-t border-moviefy-gray-dark">
+          <h3 className="text-xl font-semibold text-white mb-4">Recommended Movies</h3>
+          <div className="flex space-x-4 overflow-x-auto pb-4">
+            {mockMovies.map((movie, index) => (
+              <div
+                key={movie.title}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                className="animate-fade-in flex-shrink-0 w-48"
+              >
+                <MovieCard
+                  title={movie.title}
+                  image={movie.image}
+                  year={movie.year}
+                  genre={movie.genre.join(', ')}
+                  rating={movie.rating}
+                  onClick={() => handleMovieClick(movie)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Movie Modal */}
