@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { User, Film, LogIn } from "lucide-react";
+import { User, Film } from "lucide-react";
 import AuthModal from './AuthModal';
 
 const Header = () => {
@@ -29,9 +29,11 @@ const Header = () => {
               <a href="#" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
                 Trending
               </a>
-              <a href="#" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
-                My Lists
-              </a>
+              {isLoggedIn && (
+                <a href="#" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
+                  My Lists
+                </a>
+              )}
             </nav>
 
             {/* Auth Buttons */}
@@ -50,7 +52,6 @@ const Header = () => {
                   onClick={() => setShowAuthModal(true)}
                   className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-full px-6 hover-glow"
                 >
-                  <LogIn className="h-4 w-4 mr-2" />
                   Sign In
                 </Button>
               )}
