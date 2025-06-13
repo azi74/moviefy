@@ -310,12 +310,12 @@ const ChatInterface = () => {
         {/* Movie Recommendations Row */}
         <div className="p-6 border-t border-moviefy-gray-dark">
           <h3 className="text-xl font-semibold text-white mb-4">Recommended Movies</h3>
-          <div className="flex space-x-4 overflow-x-auto pb-4">
+          <div className="flex md:flex-row flex-col md:space-x-4 md:space-y-0 space-y-4 md:overflow-x-auto pb-4">
             {mockMovies.map((movie, index) => (
               <div
                 key={movie.title}
                 style={{ animationDelay: `${index * 0.1}s` }}
-                className="animate-fade-in flex-shrink-0 w-48"
+                className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
               >
                 <MovieCard
                   title={movie.title}

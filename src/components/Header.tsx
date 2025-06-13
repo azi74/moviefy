@@ -1,13 +1,15 @@
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { User, Film } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { User, Film, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import AuthModal from './AuthModal';
 
 const Header = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showTestToggle, setShowTestToggle] = useState(false);
 
   return (
     <>
@@ -32,8 +34,35 @@ const Header = () => {
               </Link>
             </nav>
 
-            {/* Auth Buttons */}
+            {/* Auth Buttons and Test Toggle */}
             <div className="flex items-center space-x-4">
+              {/* Test Toggle Button */}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowTestToggle(!showTestToggle)}
+                className="text-moviefy-gray-light hover:text-white hover:bg-moviefy-gray-dark rounded-full p-2"
+                title="Toggle test controls"
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+
+              {/* Test Toggle Panel */}
+              {showTestToggle && (
+                <div className="absolute top-16 right-6 bg-moviefy-gray-dark border border-moviefy-gray-medium rounded-xl p-4 shadow-lg backdrop-blur-sm animate-fade-in">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-white text-sm">Logged In:</span>
+                    <Switch 
+                      checked={isLoggedIn} 
+                      onCheckedChange={setIsLoggedIn}
+                    />
+                  </div>
+                  <p className="text-moviefy-gray-light text-xs mt-2">
+                    Toggle to test logged-in state
+                  </p>
+                </div>
+              )}
+
               {isLoggedIn ? (
                 <Button 
                   variant="ghost" 
