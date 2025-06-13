@@ -1,11 +1,12 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Bot, User } from "lucide-react";
 import ActorCard from './ActorCard';
 import MovieCard from './MovieCard';
+import CompactMovieCard from './CompactMovieCard';
 import MovieModal from './MovieModal';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Message {
   id: string;
@@ -101,9 +102,9 @@ const ChatInterface = () => {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<any>(null);
   const [showMovieModal, setShowMovieModal] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Start with the first question
     if (messages.length === 0) {
       const firstMessage: Message = {
         id: '1',
@@ -131,7 +132,6 @@ const ChatInterface = () => {
     addMessage(inputValue, 'user');
     setInputValue('');
 
-    // Move to next step
     setTimeout(() => {
       if (currentStep < chatSteps.length - 1) {
         const nextStep = currentStep + 1;
@@ -317,14 +317,25 @@ const ChatInterface = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
                 className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
               >
-                <MovieCard
-                  title={movie.title}
-                  image={movie.image}
-                  year={movie.year}
-                  genre={movie.genre.join(', ')}
-                  rating={movie.rating}
-                  onClick={() => handleMovieClick(movie)}
-                />
+                {isMobile ? (
+                  <CompactMovieCard
+                    title={movie.title}
+                    image={movie.image}
+                    year={movie.year}
+                    genre={movie.genre.join(', ')}
+                    rating={movie.rating}
+                    onClick={() => handleMovieClick(movie)}
+                  />
+                ) : (
+                  <MovieCard
+                    title={movie.title}
+                    image={movie.image}
+                    year={movie.year}
+                    genre={movie.genre.join(', ')}
+                    rating={movie.rating}
+                    onClick={() => handleMovieClick(movie)}
+                  />
+                )}
               </div>
             ))}
           </div>

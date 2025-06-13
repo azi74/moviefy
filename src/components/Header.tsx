@@ -64,14 +64,16 @@ const Header = () => {
               )}
 
               {isLoggedIn ? (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="text-white hover:text-moviefy-yellow hover:bg-moviefy-gray-dark rounded-full"
-                >
-                  <User className="h-5 w-5 mr-2" />
-                  Profile
-                </Button>
+                <Link to="/profile">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-white hover:text-moviefy-yellow hover:bg-moviefy-gray-dark rounded-full"
+                  >
+                    <User className="h-5 w-5 mr-2" />
+                    Profile
+                  </Button>
+                </Link>
               ) : (
                 <Button 
                   onClick={() => setShowAuthModal(true)}

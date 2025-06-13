@@ -2,10 +2,8 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { X, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,170 +12,137 @@ interface AuthModalProps {
 }
 
 const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
-    name: ''
+    password: ''
   });
-  const isMobile = useIsMobile();
-
-  if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
     onLogin();
   };
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
-  const AuthContent = () => (
-    <div className="p-6">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-white mb-2">
-          {isLogin ? 'Welcome Back' : 'Join Moviefy'}
-        </h2>
-        <p className="text-moviefy-gray-light">
-          {isLogin ? 'Sign in to get personalized recommendations' : 'Create your account to start discovering'}
-        </p>
-      </div>
+  const toggleMode = () => {
+    setIsSignUp(!isSignUp);
+    setFormData({ name: '', email: '', password: '' });
+  };
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {!isLogin && (
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-white">Full Name</Label>
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className={`bg-moviefy-gray-dark border-moviefy-yellow/20 text-white transition-all duration-500 ease-in-out ${
+        isSignUp ? 'max-w-md' : 'max-w-sm'
+      } animate-scale-in`}>
+        <DialogHeader className="relative">
+          <button 
+            onClick={onClose}
+            className="absolute -top-2 -right-2 text-moviefy-gray-light hover:text-white transition-colors bg-moviefy-gray-medium/80 p-2 rounded-full"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          <DialogTitle className="text-center text-2xl font-bold mb-2">
+            {isSignUp ? 'Join moviefy' : 'Welcome back'}
+          </DialogTitle>
+          <p className="text-moviefy-gray-light text-center text-sm">
+            {isSignUp ? 'Create your account to get personalized recommendations' : 'Sign in to continue your movie journey'}
+          </p>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+          {/* Name field for sign up with smooth transition */}
+          <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
+            isSignUp ? 'max-h-20 opacity-100 mb-4' : 'max-h-0 opacity-0 mb-0'
+          }`}>
             <div className="relative">
-              <User className="absolute left-3 top-3 h-5 w-5 text-moviefy-gray-light" />
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-moviefy-gray-light" />
               <Input
-                id="name"
                 type="text"
-                placeholder="Enter your name"
+                name="name"
+                placeholder="Full name"
                 value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
+                onChange={handleInputChange}
                 className="pl-12 bg-moviefy-gray-medium border-moviefy-gray-light text-white placeholder-moviefy-gray-light rounded-xl focus:border-moviefy-yellow focus:ring-moviefy-yellow"
+                required={isSignUp}
               />
             </div>
           </div>
-        )}
 
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-white">Email</Label>
+          {/* Email field */}
           <div className="relative">
-            <Mail className="absolute left-3 top-3 h-5 w-5 text-moviefy-gray-light" />
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-moviefy-gray-light" />
             <Input
-              id="email"
               type="email"
-              placeholder="Enter your email"
+              name="email"
+              placeholder="Email address"
               value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
+              onChange={handleInputChange}
               className="pl-12 bg-moviefy-gray-medium border-moviefy-gray-light text-white placeholder-moviefy-gray-light rounded-xl focus:border-moviefy-yellow focus:ring-moviefy-yellow"
+              required
             />
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="password" className="text-white">Password</Label>
+          {/* Password field */}
           <div className="relative">
-            <Lock className="absolute left-3 top-3 h-5 w-5 text-moviefy-gray-light" />
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-moviefy-gray-light" />
             <Input
-              id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
+              name="password"
+              placeholder="Password"
               value={formData.password}
-              onChange={(e) => handleInputChange('password', e.target.value)}
+              onChange={handleInputChange}
               className="pl-12 pr-12 bg-moviefy-gray-medium border-moviefy-gray-light text-white placeholder-moviefy-gray-light rounded-xl focus:border-moviefy-yellow focus:ring-moviefy-yellow"
+              required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-3 text-moviefy-gray-light hover:text-white transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-moviefy-gray-light hover:text-white transition-colors"
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
-        </div>
 
-        {!isLogin && (
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-5 w-5 text-moviefy-gray-light" />
-              <Input
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm your password"
-                value={formData.confirmPassword}
-                onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                className="pl-12 bg-moviefy-gray-medium border-moviefy-gray-light text-white placeholder-moviefy-gray-light rounded-xl focus:border-moviefy-yellow focus:ring-moviefy-yellow"
-              />
-            </div>
-          </div>
-        )}
-
-        <Button 
-          type="submit"
-          className="w-full bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-xl py-3 font-semibold hover-glow"
-        >
-          {isLogin ? 'Sign In' : 'Create Account'}
-        </Button>
-      </form>
-
-      {/* Toggle Login/Signup */}
-      <div className="text-center mt-6">
-        <p className="text-moviefy-gray-light">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}
-          <button
-            onClick={() => setIsLogin(!isLogin)}
-            className="ml-2 text-moviefy-yellow hover:text-moviefy-yellow-light font-semibold transition-colors"
+          {/* Submit button */}
+          <Button 
+            type="submit"
+            className="w-full bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-xl font-semibold py-3 hover-glow transition-all duration-200"
           >
-            {isLogin ? 'Sign Up' : 'Sign In'}
-          </button>
-        </p>
-      </div>
-    </div>
-  );
+            {isSignUp ? 'Create Account' : 'Sign In'}
+          </Button>
+        </form>
 
-  if (isMobile) {
-    return (
-      <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20">
-          <DrawerHeader className="pb-0">
-            <DrawerTitle className="sr-only">Authentication</DrawerTitle>
-          </DrawerHeader>
-          <AuthContent />
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop with strong blur */}
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-strong"
-        onClick={onClose}
-      />
-      
-      {/* Modal Content */}
-      <div className="relative bg-moviefy-gray-dark rounded-2xl w-full max-w-md animate-scale-in border border-moviefy-yellow/20">
-        {/* Close Button */}
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 text-moviefy-gray-light hover:text-white transition-colors z-10"
-        >
-          <X className="h-6 w-6" />
-        </button>
-
-        <AuthContent />
-      </div>
-    </div>
+        {/* Toggle between sign in and sign up */}
+        <div className="text-center mt-6 space-y-3">
+          {!isSignUp && (
+            <a href="#" className="block text-moviefy-yellow hover:text-moviefy-yellow-light text-sm transition-colors">
+              Forgot your password?
+            </a>
+          )}
+          
+          <div className="border-t border-moviefy-gray-medium pt-4">
+            <p className="text-moviefy-gray-light text-sm">
+              {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+            </p>
+            <button
+              type="button"
+              onClick={toggleMode}
+              className="text-moviefy-yellow hover:text-moviefy-yellow-light font-semibold text-sm mt-1 transition-colors duration-200"
+            >
+              {isSignUp ? 'Sign in here' : 'Sign up for free'}
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
