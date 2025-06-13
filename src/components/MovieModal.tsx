@@ -34,11 +34,11 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
   }));
 
   const MovieContent = () => (
-    <div className="p-4 md:p-6">
-      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+    <div className="p-3 md:p-6">
+      <div className="grid md:grid-cols-2 gap-3 md:gap-6">
         {/* Movie Poster */}
-        <div className="space-y-3 md:space-y-4">
-          <div className="aspect-[2/3] rounded-xl md:rounded-2xl overflow-hidden">
+        <div className="space-y-2 md:space-y-4">
+          <div className={`${isMobile ? 'aspect-[3/4] max-w-[200px] mx-auto' : 'aspect-[2/3]'} rounded-xl md:rounded-2xl overflow-hidden`}>
             <img 
               src={movie.image} 
               alt={movie.title}
@@ -62,7 +62,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
         {/* Movie Details */}
         <div className="space-y-3 md:space-y-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 md:mb-3">{movie.title}</h1>
+            <h1 className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-3">{movie.title}</h1>
             
             <div className="flex items-center space-x-4 mb-3 md:mb-4">
               <div className="flex items-center space-x-2">
@@ -84,30 +84,30 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
 
           {/* Description */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-2">Description</h3>
-            <p className="text-moviefy-gray-light text-sm leading-relaxed">{movie.description}</p>
+            <h3 className="text-base md:text-lg font-semibold text-white mb-2">Description</h3>
+            <p className="text-moviefy-gray-light text-sm md:text-base leading-relaxed">{movie.description}</p>
           </div>
 
           {/* Cast */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Cast</h3>
-            <div className="grid grid-cols-2 gap-2 md:gap-3">
+            <h3 className="text-base md:text-lg font-semibold text-white mb-3">Cast</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
               {castWithImages.slice(0, 4).map((actor, index) => (
-                <div key={index} className="flex items-center space-x-2 md:space-x-3">
-                  <Avatar className="h-8 w-8 md:h-10 md:w-10">
+                <div key={index} className="flex items-center space-x-3">
+                  <Avatar className="h-12 w-12 md:h-14 md:w-14 flex-shrink-0">
                     <AvatarImage src={actor.image} alt={actor.name} />
-                    <AvatarFallback className="bg-moviefy-gray-medium text-moviefy-gray-light text-xs">
+                    <AvatarFallback className="bg-moviefy-gray-medium text-moviefy-gray-light text-sm">
                       {actor.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-moviefy-gray-light text-xs md:text-sm truncate">{actor.name}</span>
+                  <span className="text-moviefy-gray-light text-sm md:text-base truncate">{actor.name}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3 pt-3 md:pt-4">
+          <div className="flex space-x-3 pt-2 md:pt-4">
             <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg md:rounded-xl px-4 md:px-6 text-sm hover-glow">
               Watch Trailer
             </Button>
@@ -123,7 +123,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[85vh] max-h-[85vh]">
+        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[90vh] max-h-[90vh]">
           <DrawerHeader className="pb-0 pt-2 relative">
             <DrawerTitle className="sr-only">Movie Details</DrawerTitle>
             {/* Close Button for Mobile */}
@@ -136,7 +136,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
             {/* Drag Handle */}
             <div className="mx-auto mt-2 h-1.5 w-16 rounded-full bg-moviefy-gray-light/30" />
           </DrawerHeader>
-          <div className="overflow-y-auto">
+          <div className="overflow-y-auto flex-1">
             <MovieContent />
           </div>
         </DrawerContent>
@@ -152,8 +152,8 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
         onClick={onClose}
       />
       
-      {/* Modal Content - Reduced size from max-w-4xl to max-w-2xl */}
-      <div className="relative bg-moviefy-gray-dark rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-scale-in border border-moviefy-yellow/20">
+      {/* Modal Content */}
+      <div className="relative bg-moviefy-gray-dark rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-y-auto animate-scale-in border border-moviefy-yellow/20">
         {/* Close Button */}
         <button 
           onClick={onClose}

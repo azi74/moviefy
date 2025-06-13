@@ -1,11 +1,13 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Heart, Eye, Clock, Tv, Film as FilmIcon } from "lucide-react";
+import { User, Heart, Eye, Clock, Tv, Film as FilmIcon, Zap } from "lucide-react";
 import Header from '@/components/Header';
 import MovieCard from '@/components/MovieCard';
+import SeriesCard from '@/components/SeriesCard';
+import AnimeCard from '@/components/AnimeCard';
+import Footer from '@/components/Footer';
 
 const Profile = () => {
   const [user] = useState({
@@ -65,7 +67,16 @@ const Profile = () => {
       image: 'https://images.unsplash.com/photo-1594736797933-d0051ba2fe65?w=400&h=600&fit=crop',
       year: 2008,
       genre: 'Drama',
-      rating: 9.5
+      rating: 9.5,
+      seasons: 5
+    },
+    {
+      title: 'Stranger Things',
+      image: 'https://images.unsplash.com/photo-1489599009821-f8e1b0a9a0e1?w=400&h=600&fit=crop',
+      year: 2016,
+      genre: 'Sci-Fi',
+      rating: 8.7,
+      seasons: 4
     }
   ];
 
@@ -75,7 +86,16 @@ const Profile = () => {
       image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop',
       year: 2013,
       genre: 'Action',
-      rating: 9.0
+      rating: 9.0,
+      episodes: 87
+    },
+    {
+      title: 'Death Note',
+      image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
+      year: 2006,
+      genre: 'Thriller',
+      rating: 9.0,
+      episodes: 37
     }
   ];
 
@@ -99,6 +119,70 @@ const Profile = () => {
                   year={movie.year}
                   genre={movie.genre}
                   rating={movie.rating}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-moviefy-gray-light text-center py-8">No {title.toLowerCase()} yet</p>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  const SeriesSection = ({ title, series, icon }: { title: string; series: any[]; icon: React.ReactNode }) => (
+    <Card className="bg-moviefy-gray-dark border-moviefy-gray-medium">
+      <CardHeader>
+        <CardTitle className="text-white flex items-center space-x-2">
+          {icon}
+          <span>{title}</span>
+          <span className="text-moviefy-gray-light text-sm">({series.length})</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {series.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {series.map((show, index) => (
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <SeriesCard
+                  title={show.title}
+                  image={show.image}
+                  year={show.year}
+                  genre={show.genre}
+                  rating={show.rating}
+                  seasons={show.seasons}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-moviefy-gray-light text-center py-8">No {title.toLowerCase()} yet</p>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  const AnimeSection = ({ title, anime, icon }: { title: string; anime: any[]; icon: React.ReactNode }) => (
+    <Card className="bg-moviefy-gray-dark border-moviefy-gray-medium">
+      <CardHeader>
+        <CardTitle className="text-white flex items-center space-x-2">
+          {icon}
+          <span>{title}</span>
+          <span className="text-moviefy-gray-light text-sm">({anime.length})</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {anime.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {anime.map((show, index) => (
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <AnimeCard
+                  title={show.title}
+                  image={show.image}
+                  year={show.year}
+                  genre={show.genre}
+                  rating={show.rating}
+                  episodes={show.episodes}
                 />
               </div>
             ))}
@@ -175,20 +259,22 @@ const Profile = () => {
               icon={<Clock className="h-5 w-5 text-moviefy-yellow" />}
             />
             
-            <MovieSection 
+            <SeriesSection 
               title="Series" 
-              movies={series} 
+              series={series} 
               icon={<Tv className="h-5 w-5 text-moviefy-yellow" />}
             />
             
-            <MovieSection 
+            <AnimeSection 
               title="Anime" 
-              movies={anime} 
-              icon={<FilmIcon className="h-5 w-5 text-moviefy-yellow" />}
+              anime={anime} 
+              icon={<Zap className="h-5 w-5 text-purple-500" />}
             />
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

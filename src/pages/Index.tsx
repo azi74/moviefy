@@ -1,92 +1,236 @@
-
+import { useState } from 'react';
+import { Search, Sparkles, Film, Tv, Zap } from 'lucide-react';
 import Header from '@/components/Header';
 import ChatInterface from '@/components/ChatInterface';
-import { Film, Sparkles, TrendingUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import MovieCard from '@/components/MovieCard';
+import SeriesCard from '@/components/SeriesCard';
+import AnimeCard from '@/components/AnimeCard';
+import CompactMovieCard from '@/components/CompactMovieCard';
+import MovieModal from '@/components/MovieModal';
+import Footer from '@/components/Footer';
 
 const Index = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
+
+  const recommendedMovies = [
+    {
+      title: 'Inception',
+      image: 'https://images.unsplash.com/photo-1489599009821-f8e1b0a9a0e1?w=400&h=600&fit=crop',
+      year: 2010,
+      genre: 'Sci-Fi',
+      rating: 8.8
+    },
+    {
+      title: 'The Dark Knight',
+      image: 'https://images.unsplash.com/photo-1478720568477-b0ac8d6c6d27?w=400&h=600&fit=crop',
+      year: 2008,
+      genre: 'Action',
+      rating: 9.0
+    },
+    {
+      title: 'Interstellar',
+      image: 'https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=600&fit=crop',
+      year: 2014,
+      genre: 'Sci-Fi',
+      rating: 8.6
+    },
+    {
+      title: 'Pulp Fiction',
+      image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
+      year: 1994,
+      genre: 'Crime',
+      rating: 8.9
+    }
+  ];
+
+  const recommendedSeries = [
+    {
+      title: 'Breaking Bad',
+      image: 'https://images.unsplash.com/photo-1594736797933-d0051ba2fe65?w=400&h=600&fit=crop',
+      year: 2008,
+      genre: 'Drama',
+      rating: 9.5,
+      seasons: 5
+    },
+    {
+      title: 'The Last of Us',
+      image: 'https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=400&h=600&fit=crop',
+      year: 2023,
+      genre: 'Drama',
+      rating: 8.7,
+      seasons: 1
+    },
+    {
+      title: 'Stranger Things',
+      image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
+      year: 2016,
+      genre: 'Sci-Fi',
+      rating: 8.7,
+      seasons: 4
+    },
+    {
+      title: 'Game of Thrones',
+      image: 'https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=600&fit=crop',
+      year: 2011,
+      genre: 'Fantasy',
+      rating: 9.3,
+      seasons: 8
+    }
+  ];
+
+  const recommendedAnime = [
+    {
+      title: 'Attack on Titan',
+      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop',
+      year: 2013,
+      genre: 'Action',
+      rating: 9.0,
+      episodes: 87
+    },
+    {
+      title: 'Death Note',
+      image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
+      year: 2006,
+      genre: 'Thriller',
+      rating: 9.0,
+      episodes: 37
+    },
+    {
+      title: 'Demon Slayer',
+      image: 'https://images.unsplash.com/photo-1489599009821-f8e1b0a9a0e1?w=400&h=600&fit=crop',
+      year: 2019,
+      genre: 'Action',
+      rating: 8.7,
+      episodes: 44
+    },
+    {
+      title: 'One Piece',
+      image: 'https://images.unsplash.com/photo-1478720568477-b0ac8d6c6d27?w=400&h=600&fit=crop',
+      year: 1999,
+      genre: 'Adventure',
+      rating: 9.0,
+      episodes: 1000
+    }
+  ];
+
+  const handleMovieClick = (movie: any) => {
+    setSelectedMovie({
+      ...movie,
+      genre: [movie.genre],
+      imdbRating: movie.rating,
+      rottenTomatoesScore: Math.floor(movie.rating * 10),
+      description: "An epic journey through time and space that challenges the very fabric of reality. This masterpiece combines stunning visuals with a mind-bending narrative that will leave you questioning everything you thought you knew about the universe.",
+      cast: ["Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy", "Ellen Page"]
+    });
+    setIsMovieModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-moviefy-black">
-      <Header />
+      <Header isLoggedIn={isLoggedIn} onAuthClick={() => setIsLoggedIn(!isLoggedIn)} />
       
-      {/* Main Content */}
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section className="relative py-20 overflow-hidden">
-          {/* Background Elements */}
-          <div className="absolute inset-0">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-moviefy-yellow/5 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-moviefy-yellow/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      <main className="container mx-auto px-6 pt-24 pb-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Hero Section */}
+          <div className="text-center mb-12 animate-fade-in">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+              Discover Your Next
+              <span className="block text-moviefy-yellow">Favorite Movie</span>
+            </h1>
+            <p className="text-xl text-moviefy-gray-light mb-8 max-w-2xl mx-auto">
+              Let our AI-powered assistant help you find the perfect movie, TV show, or anime based on your mood, preferences, and viewing history.
+            </p>
+          </div>
+
+          {/* Chat Interface */}
+          <div className="mb-16">
+            <ChatInterface />
+          </div>
+        </div>
+
+        {/* Recommended Movies Section */}
+        <div className="max-w-7xl mx-auto mb-16">
+          <div className="flex items-center space-x-3 mb-8">
+            <Film className="h-6 w-6 text-moviefy-yellow" />
+            <h2 className="text-3xl font-bold text-white">Recommended Movies</h2>
+            <Sparkles className="h-6 w-6 text-moviefy-yellow" />
           </div>
           
-          <div className="container mx-auto px-6 text-center relative z-10">
-            <div className="animate-fade-in">
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-                Discover Your Next
-                <span className="block text-moviefy-yellow">Favorite Movie</span>
-              </h1>
-              <p className="text-xl text-moviefy-gray-light mb-8 max-w-2xl mx-auto">
-                Get personalized movie recommendations powered by AI. Tell us what you love, and we'll find your perfect match.
-              </p>
-            </div>
-
-            {/* Feature Cards */}
-            <div className="grid md:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto">
-              <div className="bg-moviefy-gray-dark/50 backdrop-blur-sm rounded-2xl p-6 animate-slide-up hover-glow border border-moviefy-gray-medium">
-                <Film className="h-12 w-12 text-moviefy-yellow mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">Smart Recommendations</h3>
-                <p className="text-moviefy-gray-light">AI-powered suggestions based on your unique taste and preferences</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            {recommendedMovies.map((movie, index) => (
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <MovieCard
+                  title={movie.title}
+                  image={movie.image}
+                  year={movie.year}
+                  genre={movie.genre}
+                  rating={movie.rating}
+                  onClick={() => handleMovieClick(movie)}
+                />
               </div>
-              
-              <div className="bg-moviefy-gray-dark/50 backdrop-blur-sm rounded-2xl p-6 animate-slide-up hover-glow border border-moviefy-gray-medium" style={{ animationDelay: '0.1s' }}>
-                <Sparkles className="h-12 w-12 text-moviefy-yellow mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">Personalized Experience</h3>
-                <p className="text-moviefy-gray-light">Curated content that evolves with your viewing history and ratings</p>
-              </div>
-              
-              <Link to="/trending" className="bg-moviefy-gray-dark/50 backdrop-blur-sm rounded-2xl p-6 animate-slide-up hover-glow border border-moviefy-gray-medium cursor-pointer transition-transform hover:scale-105" style={{ animationDelay: '0.2s' }}>
-                <TrendingUp className="h-12 w-12 text-moviefy-yellow mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">Trending & Popular</h3>
-                <p className="text-moviefy-gray-light">Stay updated with the latest releases and trending content</p>
-              </Link>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
 
-        {/* Chat Interface Section */}
-        <section className="py-16 bg-moviefy-gray-dark/20">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-12 animate-fade-in">
-              <h2 className="text-4xl font-bold text-white mb-4">
-                Start Your Movie Journey
-              </h2>
-              <p className="text-xl text-moviefy-gray-light max-w-2xl mx-auto">
-                Answer a few questions and let our AI find the perfect movies for you
-              </p>
-            </div>
-            
-            {/* Chat Interface Container */}
-            <div className="bg-moviefy-gray-dark/40 backdrop-blur-sm rounded-3xl border border-moviefy-gray-medium min-h-[600px] animate-scale-in">
-              <ChatInterface />
-            </div>
+        {/* Recommended Series Section */}
+        <div className="max-w-7xl mx-auto mb-16">
+          <div className="flex items-center space-x-3 mb-8">
+            <Tv className="h-6 w-6 text-moviefy-yellow" />
+            <h2 className="text-3xl font-bold text-white">Recommended Series</h2>
+            <Sparkles className="h-6 w-6 text-moviefy-yellow" />
           </div>
-        </section>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            {recommendedSeries.map((series, index) => (
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <SeriesCard
+                  title={series.title}
+                  image={series.image}
+                  year={series.year}
+                  genre={series.genre}
+                  rating={series.rating}
+                  seasons={series.seasons}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recommended Anime Section */}
+        <div className="max-w-7xl mx-auto mb-16">
+          <div className="flex items-center space-x-3 mb-8">
+            <Zap className="h-6 w-6 text-purple-500" />
+            <h2 className="text-3xl font-bold text-white">Recommended Anime</h2>
+            <Sparkles className="h-6 w-6 text-purple-500" />
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            {recommendedAnime.map((anime, index) => (
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <AnimeCard
+                  title={anime.title}
+                  image={anime.image}
+                  year={anime.year}
+                  genre={anime.genre}
+                  rating={anime.rating}
+                  episodes={anime.episodes}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </main>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-moviefy-gray-dark">
-        <div className="container mx-auto px-6 text-center">
-          <div className="flex items-center justify-center space-x-3 mb-4">
-            <Film className="h-6 w-6 text-moviefy-yellow" />
-            <span className="text-xl font-bold text-white">
-              movie<span className="text-moviefy-yellow">fy</span>
-            </span>
-          </div>
-          <p className="text-moviefy-gray-light">
-            © 2024 moviefy. Discover your next favorite movie with AI-powered recommendations.
-          </p>
-        </div>
-      </footer>
+      <Footer />
+
+      {/* Movie Modal */}
+      <MovieModal 
+        isOpen={isMovieModalOpen}
+        onClose={() => setIsMovieModalOpen(false)}
+        movie={selectedMovie}
+      />
     </div>
   );
 };
