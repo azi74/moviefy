@@ -2,6 +2,7 @@
 import { X, Star, Calendar, Film } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MovieDetails {
@@ -26,11 +27,17 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
 
   if (!isOpen || !movie) return null;
 
+  // Generate cast member data with placeholder images
+  const castWithImages = movie.cast.map((name, index) => ({
+    name,
+    image: `https://images.unsplash.com/photo-${1500000000 + index}?w=100&h=100&fit=crop&crop=face`
+  }));
+
   const MovieContent = () => (
     <div className="p-6">
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Movie Poster */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div className="aspect-[2/3] rounded-2xl overflow-hidden">
             <img 
               src={movie.image} 
@@ -40,68 +47,71 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
           </div>
           
           {/* Ratings */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-moviefy-gray-medium p-4 rounded-xl text-center">
-              <div className="text-moviefy-yellow text-2xl font-bold">{movie.imdbRating}</div>
-              <div className="text-moviefy-gray-light text-sm">IMDB Rating</div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-moviefy-gray-medium p-3 rounded-xl text-center">
+              <div className="text-moviefy-yellow text-xl font-bold">{movie.imdbRating}</div>
+              <div className="text-moviefy-gray-light text-xs">IMDB Rating</div>
             </div>
-            <div className="bg-moviefy-gray-medium p-4 rounded-xl text-center">
-              <div className="text-moviefy-yellow text-2xl font-bold">{movie.rottenTomatoesScore}%</div>
-              <div className="text-moviefy-gray-light text-sm">Rotten Tomatoes</div>
+            <div className="bg-moviefy-gray-medium p-3 rounded-xl text-center">
+              <div className="text-moviefy-yellow text-xl font-bold">{movie.rottenTomatoesScore}%</div>
+              <div className="text-moviefy-gray-light text-xs">Rotten Tomatoes</div>
             </div>
           </div>
         </div>
 
         {/* Movie Details */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-4">{movie.title}</h1>
+            <h1 className="text-3xl font-bold text-white mb-3">{movie.title}</h1>
             
-            <div className="flex items-center space-x-6 mb-6">
+            <div className="flex items-center space-x-4 mb-4">
               <div className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-moviefy-yellow" />
-                <span className="text-moviefy-gray-light">{movie.year}</span>
+                <Calendar className="h-4 w-4 text-moviefy-yellow" />
+                <span className="text-moviefy-gray-light text-sm">{movie.year}</span>
               </div>
               
               <div className="flex items-center space-x-2">
-                <Film className="h-5 w-5 text-moviefy-yellow" />
-                <span className="text-moviefy-gray-light">{movie.genre.join(', ')}</span>
+                <Film className="h-4 w-4 text-moviefy-yellow" />
+                <span className="text-moviefy-gray-light text-sm">{movie.genre.join(', ')}</span>
               </div>
               
               <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-moviefy-yellow fill-moviefy-yellow" />
-                <span className="text-moviefy-gray-light">{movie.imdbRating}/10</span>
+                <Star className="h-4 w-4 text-moviefy-yellow fill-moviefy-yellow" />
+                <span className="text-moviefy-gray-light text-sm">{movie.imdbRating}/10</span>
               </div>
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-3">Description</h3>
-            <p className="text-moviefy-gray-light leading-relaxed">{movie.description}</p>
+            <h3 className="text-lg font-semibold text-white mb-2">Description</h3>
+            <p className="text-moviefy-gray-light text-sm leading-relaxed">{movie.description}</p>
           </div>
 
           {/* Cast */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-3">Cast</h3>
-            <div className="flex flex-wrap gap-2">
-              {movie.cast.map((actor, index) => (
-                <span 
-                  key={index}
-                  className="bg-moviefy-gray-medium px-3 py-1 rounded-full text-moviefy-gray-light text-sm"
-                >
-                  {actor}
-                </span>
+            <h3 className="text-lg font-semibold text-white mb-3">Cast</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {castWithImages.map((actor, index) => (
+                <div key={index} className="flex items-center space-x-3">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={actor.image} alt={actor.name} />
+                    <AvatarFallback className="bg-moviefy-gray-medium text-moviefy-gray-light text-xs">
+                      {actor.name.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-moviefy-gray-light text-sm truncate">{actor.name}</span>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-4 pt-6">
-            <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-xl px-8 hover-glow">
+          <div className="flex space-x-3 pt-4">
+            <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-xl px-6 text-sm hover-glow">
               Watch Trailer
             </Button>
-            <Button variant="outline" className="border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-xl px-8">
+            <Button variant="outline" className="border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-xl px-6 text-sm">
               Add to List
             </Button>
           </div>
@@ -133,8 +143,8 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
         onClick={onClose}
       />
       
-      {/* Modal Content */}
-      <div className="relative bg-moviefy-gray-dark rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto animate-scale-in border border-moviefy-yellow/20">
+      {/* Modal Content - Reduced size from max-w-4xl to max-w-2xl */}
+      <div className="relative bg-moviefy-gray-dark rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-scale-in border border-moviefy-yellow/20">
         {/* Close Button */}
         <button 
           onClick={onClose}

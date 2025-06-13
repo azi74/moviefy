@@ -2,6 +2,7 @@
 import Header from '@/components/Header';
 import ChatInterface from '@/components/ChatInterface';
 import { Film, Sparkles, TrendingUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   return (
@@ -43,11 +44,11 @@ const Index = () => {
                 <p className="text-moviefy-gray-light">Curated content that evolves with your viewing history and ratings</p>
               </div>
               
-              <div className="bg-moviefy-gray-dark/50 backdrop-blur-sm rounded-2xl p-6 animate-slide-up hover-glow border border-moviefy-gray-medium" style={{ animationDelay: '0.2s' }}>
+              <Link to="/trending" className="bg-moviefy-gray-dark/50 backdrop-blur-sm rounded-2xl p-6 animate-slide-up hover-glow border border-moviefy-gray-medium cursor-pointer transition-transform hover:scale-105" style={{ animationDelay: '0.2s' }}>
                 <TrendingUp className="h-12 w-12 text-moviefy-yellow mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">Trending & Popular</h3>
                 <p className="text-moviefy-gray-light">Stay updated with the latest releases and trending content</p>
-              </div>
+              </Link>
             </div>
           </div>
         </section>
@@ -78,11 +79,11 @@ const Index = () => {
           <div className="flex items-center justify-center space-x-3 mb-4">
             <Film className="h-6 w-6 text-moviefy-yellow" />
             <span className="text-xl font-bold text-white">
-              Movie<span className="text-moviefy-yellow">fy</span>
+              movie<span className="text-moviefy-yellow">fy</span>
             </span>
           </div>
           <p className="text-moviefy-gray-light">
-            © 2024 Moviefy. Discover your next favorite movie with AI-powered recommendations.
+            © 2024 moviefy. Discover your next favorite movie with AI-powered recommendations.
           </p>
         </div>
       </footer>

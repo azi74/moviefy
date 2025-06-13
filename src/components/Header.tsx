@@ -18,7 +18,7 @@ const Header = () => {
             <Link to="/" className="flex items-center space-x-3 animate-fade-in">
               <Film className="h-8 w-8 text-moviefy-yellow" />
               <h1 className="text-2xl font-bold text-white">
-                Movie<span className="text-moviefy-yellow">fy</span>
+                movie<span className="text-moviefy-yellow">fy</span>
               </h1>
             </Link>
 
@@ -30,11 +30,6 @@ const Header = () => {
               <Link to="/trending" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
                 Trending
               </Link>
-              {isLoggedIn && (
-                <a href="#" className="text-white hover:text-moviefy-yellow transition-colors duration-200">
-                  My Lists
-                </a>
-              )}
             </nav>
 
             {/* Auth Buttons */}
