@@ -24,22 +24,22 @@ const Index = () => {
 
   const featureCards = [
     {
-      icon: <TrendingUp className="h-12 w-12 text-moviefy-yellow" />,
+      icon: <TrendingUp className="h-8 w-8 text-moviefy-yellow" />,
       title: "Trending Now",
       description: "Discover what's hot and popular right now across movies, TV shows, and anime.",
-      gradient: "from-moviefy-yellow/20 to-orange-500/20"
+      bgImage: "https://images.unsplash.com/photo-1489599009821-f8e1b0a9a0e1?w=400&h=300&fit=crop"
     },
     {
-      icon: <Sparkles className="h-12 w-12 text-purple-400" />,
+      icon: <Sparkles className="h-8 w-8 text-moviefy-yellow" />,
       title: "AI Recommendations",
       description: "Get personalized suggestions powered by advanced AI that understands your taste.",
-      gradient: "from-purple-400/20 to-blue-500/20"
+      bgImage: "https://images.unsplash.com/photo-1478720568477-b0ac8d6c6d27?w=400&h=300&fit=crop"
     },
     {
-      icon: <Film className="h-12 w-12 text-green-400" />,
+      icon: <Film className="h-8 w-8 text-moviefy-yellow" />,
       title: "Discover Hidden Gems",
       description: "Uncover underrated masterpieces and hidden treasures you might have missed.",
-      gradient: "from-green-400/20 to-teal-500/20"
+      bgImage: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=300&fit=crop"
     }
   ];
 
@@ -60,21 +60,44 @@ const Index = () => {
             </p>
 
             {/* Feature Cards */}
-            <div className="grid md:grid-cols-3 gap-8 mt-16">
+            <div className="grid md:grid-cols-3 gap-6 mt-16">
               {featureCards.map((card, index) => (
                 <div
                   key={index}
-                  className={`relative bg-gradient-to-br ${card.gradient} bg-moviefy-gray-dark/50 backdrop-blur-sm rounded-2xl p-8 cursor-pointer hover:scale-105 transition-all duration-300 border border-moviefy-gray-medium/30 group`}
+                  className="relative bg-moviefy-gray-dark rounded-2xl overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 border border-moviefy-yellow/20 group h-64"
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
-                  <div className="text-center space-y-4">
-                    <div className="mx-auto w-fit p-4 bg-moviefy-gray-medium/50 rounded-full group-hover:scale-110 transition-transform duration-300">
-                      {card.icon}
-                    </div>
-                    <h3 className="text-xl font-semibold text-white">{card.title}</h3>
-                    <p className="text-moviefy-gray-light text-sm leading-relaxed">{card.description}</p>
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src={card.bgImage} 
+                      alt={card.title}
+                      className="w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-moviefy-black via-moviefy-black/60 to-transparent" />
                   </div>
-                  <div className="absolute inset-0 bg-moviefy-yellow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+
+                  {/* Content */}
+                  <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      <div className="p-3 bg-moviefy-yellow/20 rounded-full border border-moviefy-yellow/30 group-hover:bg-moviefy-yellow/30 transition-colors duration-300">
+                        {card.icon}
+                      </div>
+                      <h3 className="text-xl font-bold text-white group-hover:text-moviefy-yellow transition-colors duration-300">
+                        {card.title}
+                      </h3>
+                    </div>
+                    
+                    <p className="text-moviefy-gray-light text-sm leading-relaxed group-hover:text-white transition-colors duration-300">
+                      {card.description}
+                    </p>
+                  </div>
+
+                  {/* Hover Glow Effect */}
+                  <div className="absolute inset-0 bg-moviefy-yellow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  
+                  {/* Border Glow on Hover */}
+                  <div className="absolute inset-0 border-2 border-moviefy-yellow/0 group-hover:border-moviefy-yellow/50 rounded-2xl transition-all duration-300" />
                 </div>
               ))}
             </div>
