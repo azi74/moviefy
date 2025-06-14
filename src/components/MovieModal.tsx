@@ -116,7 +116,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
       </div>
 
       {/* Fixed Action Buttons */}
-      <div className={`${isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-moviefy-gray-dark border-t border-moviefy-gray-medium' : 'absolute bottom-4 left-6'}`}>
+      <div className={`${isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-moviefy-gray-dark border-t border-moviefy-gray-medium' : 'absolute bottom-4 right-6'}`}>
         <div className={`flex ${isMobile ? 'grid grid-cols-2 gap-3' : 'space-x-3'}`}>
           <Button className={`bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg px-6 text-sm hover-glow ${
             isMobile ? 'h-14 py-4' : ''

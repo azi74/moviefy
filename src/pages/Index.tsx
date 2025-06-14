@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Sparkles, TrendingUp, Zap, Film } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import ChatInterface from '@/components/ChatInterface';
 import MovieModal from '@/components/MovieModal';
@@ -9,6 +10,8 @@ import Footer from '@/components/Footer';
 const Index = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
+  const [showChatInterface, setShowChatInterface] = useState(false);
+  const navigate = useNavigate();
 
   const handleMovieClick = (movie: any) => {
     setSelectedMovie({
@@ -20,6 +23,14 @@ const Index = () => {
       cast: ["Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy", "Ellen Page"]
     });
     setIsMovieModalOpen(true);
+  };
+
+  const handleFeatureCardClick = (cardTitle: string) => {
+    if (cardTitle === "Trending Now") {
+      navigate('/trending');
+    } else if (cardTitle === "AI Recommendations") {
+      setShowChatInterface(true);
+    }
   };
 
   const featureCards = [
@@ -56,22 +67,23 @@ const Index = () => {
               Let our AI-powered assistant help you find the perfect movie, TV show, or anime based on your mood and preferences.
             </p>
 
-            {/* Feature Cards - Reduced height and added hover animation */}
-            <div className="grid md:grid-cols-3 gap-4 mt-16">
+            {/* Feature Cards - Mobile optimized layout */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-16">
               {featureCards.map((card, index) => (
                 <div
                   key={index}
-                  className="bg-moviefy-gray-dark/50 border border-moviefy-gray-medium/30 rounded-xl p-6 cursor-pointer hover:border-moviefy-yellow/50 hover:bg-moviefy-gray-dark/70 transition-all duration-300 group aspect-[4/3] flex flex-col justify-center hover:transform hover:scale-105 hover:shadow-lg hover:shadow-moviefy-yellow/20"
+                  onClick={() => handleFeatureCardClick(card.title)}
+                  className="bg-moviefy-gray-dark/50 border border-moviefy-gray-medium/30 rounded-xl p-4 md:p-6 cursor-pointer hover:border-moviefy-yellow/50 hover:bg-moviefy-gray-dark/70 transition-all duration-300 group aspect-[5/2] md:aspect-[4/3] flex flex-col justify-center hover:transform hover:scale-105 hover:shadow-lg hover:shadow-moviefy-yellow/20"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex flex-col items-center text-center space-y-3">
-                    <div className="p-3 bg-moviefy-yellow/10 rounded-lg group-hover:bg-moviefy-yellow/20 transition-colors duration-300">
+                  <div className="flex flex-col items-center text-center space-y-2 md:space-y-3">
+                    <div className="p-2 md:p-3 bg-moviefy-yellow/10 rounded-lg group-hover:bg-moviefy-yellow/20 transition-colors duration-300">
                       {card.icon}
                     </div>
-                    <h3 className="text-lg font-semibold text-white group-hover:text-moviefy-yellow transition-colors duration-300">
+                    <h3 className="text-base md:text-lg font-semibold text-white group-hover:text-moviefy-yellow transition-colors duration-300">
                       {card.title}
                     </h3>
-                    <p className="text-moviefy-gray-light text-sm">
+                    <p className="text-moviefy-gray-light text-xs md:text-sm">
                       {card.description}
                     </p>
                   </div>
@@ -80,18 +92,20 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Chat Interface with Recommendations */}
-          <div className="mb-16 animate-fade-in">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Ask Our AI Assistant
-              </h2>
-              <p className="text-moviefy-gray-light">
-                Describe what you're in the mood for, and we'll find the perfect match.
-              </p>
+          {/* Chat Interface with Recommendations - Show conditionally */}
+          {showChatInterface && (
+            <div className="mb-16 animate-fade-in">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold text-white mb-4">
+                  Ask Our AI Assistant
+                </h2>
+                <p className="text-moviefy-gray-light">
+                  Describe what you're in the mood for, and we'll find the perfect match.
+                </p>
+              </div>
+              <ChatInterface onMovieClick={handleMovieClick} />
             </div>
-            <ChatInterface onMovieClick={handleMovieClick} />
-          </div>
+          )}
         </div>
       </main>
 
