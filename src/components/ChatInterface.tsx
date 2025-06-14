@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Bot, User } from "lucide-react";
+import { Send, Bot, User, Film, Tv, Zap } from "lucide-react";
 import ActorCard from './ActorCard';
 import MovieCard from './MovieCard';
+import SeriesCard from './SeriesCard';
+import AnimeCard from './AnimeCard';
 import CompactMovieCard from './CompactMovieCard';
 import MovieModal from './MovieModal';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -19,6 +21,10 @@ interface ChatStep {
   question: string;
   type: 'text' | 'actors' | 'genres' | 'movies';
   options?: any[];
+}
+
+interface ChatInterfaceProps {
+  onMovieClick?: (movie: any) => void;
 }
 
 const mockActors = [
@@ -77,6 +83,76 @@ const mockMovies = [
   }
 ];
 
+const mockSeries = [
+  {
+    title: 'Breaking Bad',
+    image: 'https://images.unsplash.com/photo-1594736797933-d0051ba2fe65?w=400&h=600&fit=crop',
+    year: 2008,
+    genre: 'Drama',
+    rating: 9.5,
+    seasons: 5
+  },
+  {
+    title: 'The Last of Us',
+    image: 'https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=400&h=600&fit=crop',
+    year: 2023,
+    genre: 'Drama',
+    rating: 8.7,
+    seasons: 1
+  },
+  {
+    title: 'Stranger Things',
+    image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
+    year: 2016,
+    genre: 'Sci-Fi',
+    rating: 8.7,
+    seasons: 4
+  },
+  {
+    title: 'Game of Thrones',
+    image: 'https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=600&fit=crop',
+    year: 2011,
+    genre: 'Fantasy',
+    rating: 9.3,
+    seasons: 8
+  }
+];
+
+const mockAnime = [
+  {
+    title: 'Attack on Titan',
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop',
+    year: 2013,
+    genre: 'Action',
+    rating: 9.0,
+    episodes: 87
+  },
+  {
+    title: 'Death Note',
+    image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
+    year: 2006,
+    genre: 'Thriller',
+    rating: 9.0,
+    episodes: 37
+  },
+  {
+    title: 'Demon Slayer',
+    image: 'https://images.unsplash.com/photo-1489599009821-f8e1b0a9a0e1?w=400&h=600&fit=crop',
+    year: 2019,
+    genre: 'Action',
+    rating: 8.7,
+    episodes: 44
+  },
+  {
+    title: 'One Piece',
+    image: 'https://images.unsplash.com/photo-1478720568477-b0ac8d6c6d27?w=400&h=600&fit=crop',
+    year: 1999,
+    genre: 'Adventure',
+    rating: 9.0,
+    episodes: 1000
+  }
+];
+
 const chatSteps: ChatStep[] = [
   {
     question: "Hi! I'm your personal movie recommendation assistant. What are some of your favorite movies you've watched recently?",
@@ -94,7 +170,7 @@ const chatSteps: ChatStep[] = [
   }
 ];
 
-const ChatInterface = () => {
+const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [inputValue, setInputValue] = useState('');
@@ -180,8 +256,12 @@ const ChatInterface = () => {
   };
 
   const handleMovieClick = (movie: any) => {
-    setSelectedMovie(movie);
-    setShowMovieModal(true);
+    if (onMovieClick) {
+      onMovieClick(movie);
+    } else {
+      setSelectedMovie(movie);
+      setShowMovieModal(true);
+    }
   };
 
   const currentStepData = chatSteps[currentStep];
@@ -307,37 +387,95 @@ const ChatInterface = () => {
           </div>
         )}
 
-        {/* Movie Recommendations Row */}
+        {/* All Recommendations in Chat */}
         <div className="p-6 border-t border-moviefy-gray-dark">
-          <h3 className="text-xl font-semibold text-white mb-4">Recommended Movies</h3>
-          <div className="flex md:flex-row flex-col md:space-x-4 md:space-y-0 space-y-4 md:overflow-x-auto pb-4">
-            {mockMovies.map((movie, index) => (
-              <div
-                key={movie.title}
-                style={{ animationDelay: `${index * 0.1}s` }}
-                className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
-              >
-                {isMobile ? (
-                  <CompactMovieCard
-                    title={movie.title}
-                    image={movie.image}
-                    year={movie.year}
-                    genre={movie.genre.join(', ')}
-                    rating={movie.rating}
-                    onClick={() => handleMovieClick(movie)}
+          {/* Movie Recommendations */}
+          <div className="mb-8">
+            <div className="flex items-center space-x-3 mb-4">
+              <Film className="h-6 w-6 text-moviefy-yellow" />
+              <h3 className="text-xl font-semibold text-white">Recommended Movies</h3>
+            </div>
+            <div className="flex md:flex-row flex-col md:space-x-4 md:space-y-0 space-y-4 md:overflow-x-auto pb-4">
+              {mockMovies.map((movie, index) => (
+                <div
+                  key={movie.title}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
+                >
+                  {isMobile ? (
+                    <CompactMovieCard
+                      title={movie.title}
+                      image={movie.image}
+                      year={movie.year}
+                      genre={movie.genre.join(', ')}
+                      rating={movie.rating}
+                      onClick={() => handleMovieClick(movie)}
+                    />
+                  ) : (
+                    <MovieCard
+                      title={movie.title}
+                      image={movie.image}
+                      year={movie.year}
+                      genre={movie.genre.join(', ')}
+                      rating={movie.rating}
+                      onClick={() => handleMovieClick(movie)}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Series Recommendations */}
+          <div className="mb-8">
+            <div className="flex items-center space-x-3 mb-4">
+              <Tv className="h-6 w-6 text-moviefy-yellow" />
+              <h3 className="text-xl font-semibold text-white">Recommended Series</h3>
+            </div>
+            <div className="flex md:flex-row flex-col md:space-x-4 md:space-y-0 space-y-4 md:overflow-x-auto pb-4">
+              {mockSeries.map((series, index) => (
+                <div
+                  key={series.title}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
+                >
+                  <SeriesCard
+                    title={series.title}
+                    image={series.image}
+                    year={series.year}
+                    genre={series.genre}
+                    rating={series.rating}
+                    seasons={series.seasons}
                   />
-                ) : (
-                  <MovieCard
-                    title={movie.title}
-                    image={movie.image}
-                    year={movie.year}
-                    genre={movie.genre.join(', ')}
-                    rating={movie.rating}
-                    onClick={() => handleMovieClick(movie)}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Anime Recommendations */}
+          <div>
+            <div className="flex items-center space-x-3 mb-4">
+              <Zap className="h-6 w-6 text-purple-500" />
+              <h3 className="text-xl font-semibold text-white">Recommended Anime</h3>
+            </div>
+            <div className="flex md:flex-row flex-col md:space-x-4 md:space-y-0 space-y-4 md:overflow-x-auto pb-4">
+              {mockAnime.map((anime, index) => (
+                <div
+                  key={anime.title}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
+                >
+                  <AnimeCard
+                    title={anime.title}
+                    image={anime.image}
+                    year={anime.year}
+                    genre={anime.genre}
+                    rating={anime.rating}
+                    episodes={anime.episodes}
                   />
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

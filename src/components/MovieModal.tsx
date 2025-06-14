@@ -34,11 +34,11 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
   }));
 
   const MovieContent = () => (
-    <div className="p-3 md:p-6">
-      <div className="grid md:grid-cols-2 gap-3 md:gap-6">
-        {/* Movie Poster */}
-        <div className="space-y-2 md:space-y-4">
-          <div className={`${isMobile ? 'aspect-[3/4] max-w-[200px] mx-auto' : 'aspect-[2/3]'} rounded-xl md:rounded-2xl overflow-hidden`}>
+    <div className="p-4 md:p-6">
+      <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+        {/* Movie Poster - Smaller on desktop */}
+        <div className="md:col-span-1 space-y-3">
+          <div className={`${isMobile ? 'aspect-[3/4] max-w-[200px] mx-auto' : 'aspect-[2/3]'} rounded-lg md:rounded-xl overflow-hidden`}>
             <img 
               src={movie.image} 
               alt={movie.title}
@@ -46,25 +46,25 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
             />
           </div>
           
-          {/* Ratings */}
-          <div className="grid grid-cols-2 gap-2 md:gap-3">
-            <div className="bg-moviefy-gray-medium p-2 md:p-3 rounded-lg md:rounded-xl text-center">
-              <div className="text-moviefy-yellow text-lg md:text-xl font-bold">{movie.imdbRating}</div>
-              <div className="text-moviefy-gray-light text-xs">IMDB Rating</div>
+          {/* Ratings - Compact */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-moviefy-gray-medium p-2 rounded-lg text-center">
+              <div className="text-moviefy-yellow text-lg font-bold">{movie.imdbRating}</div>
+              <div className="text-moviefy-gray-light text-xs">IMDB</div>
             </div>
-            <div className="bg-moviefy-gray-medium p-2 md:p-3 rounded-lg md:rounded-xl text-center">
-              <div className="text-moviefy-yellow text-lg md:text-xl font-bold">{movie.rottenTomatoesScore}%</div>
-              <div className="text-moviefy-gray-light text-xs">Rotten Tomatoes</div>
+            <div className="bg-moviefy-gray-medium p-2 rounded-lg text-center">
+              <div className="text-moviefy-yellow text-lg font-bold">{movie.rottenTomatoesScore}%</div>
+              <div className="text-moviefy-gray-light text-xs">RT</div>
             </div>
           </div>
         </div>
 
-        {/* Movie Details */}
-        <div className="space-y-3 md:space-y-4">
+        {/* Movie Details - More space */}
+        <div className="md:col-span-2 space-y-4">
           <div>
-            <h1 className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-3">{movie.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">{movie.title}</h1>
             
-            <div className="flex items-center space-x-4 mb-3 md:mb-4">
+            <div className="flex items-center flex-wrap gap-4 mb-4">
               <div className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4 text-moviefy-yellow" />
                 <span className="text-moviefy-gray-light text-sm">{movie.year}</span>
@@ -82,36 +82,36 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
             </div>
           </div>
 
-          {/* Description */}
+          {/* Description - More prominent */}
           <div>
-            <h3 className="text-base md:text-lg font-semibold text-white mb-2">Description</h3>
+            <h3 className="text-lg font-semibold text-white mb-3">Description</h3>
             <p className="text-moviefy-gray-light text-sm md:text-base leading-relaxed">{movie.description}</p>
           </div>
 
-          {/* Cast */}
+          {/* Cast - Compact grid */}
           <div>
-            <h3 className="text-base md:text-lg font-semibold text-white mb-3">Cast</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-              {castWithImages.slice(0, 4).map((actor, index) => (
+            <h3 className="text-lg font-semibold text-white mb-3">Cast</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {castWithImages.slice(0, 6).map((actor, index) => (
                 <div key={index} className="flex items-center space-x-3">
-                  <Avatar className="h-12 w-12 md:h-14 md:w-14 flex-shrink-0">
+                  <Avatar className="h-10 w-10 flex-shrink-0">
                     <AvatarImage src={actor.image} alt={actor.name} />
-                    <AvatarFallback className="bg-moviefy-gray-medium text-moviefy-gray-light text-sm">
+                    <AvatarFallback className="bg-moviefy-gray-medium text-moviefy-gray-light text-xs">
                       {actor.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-moviefy-gray-light text-sm md:text-base truncate">{actor.name}</span>
+                  <span className="text-moviefy-gray-light text-sm truncate">{actor.name}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3 pt-2 md:pt-4">
-            <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg md:rounded-xl px-4 md:px-6 text-sm hover-glow">
+          <div className="flex space-x-3 pt-3">
+            <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg px-6 text-sm hover-glow">
               Watch Trailer
             </Button>
-            <Button variant="outline" className="border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-lg md:rounded-xl px-4 md:px-6 text-sm">
+            <Button variant="outline" className="border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-lg px-6 text-sm">
               Add to List
             </Button>
           </div>
@@ -123,7 +123,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[90vh] max-h-[90vh]">
+        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[85vh] max-h-[85vh]">
           <DrawerHeader className="pb-0 pt-2 relative">
             <DrawerTitle className="sr-only">Movie Details</DrawerTitle>
             {/* Close Button for Mobile */}
@@ -152,12 +152,12 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
         onClick={onClose}
       />
       
-      {/* Modal Content */}
-      <div className="relative bg-moviefy-gray-dark rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-y-auto animate-scale-in border border-moviefy-yellow/20">
+      {/* Modal Content - Larger width */}
+      <div className="relative bg-moviefy-gray-dark rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-y-auto animate-scale-in border border-moviefy-yellow/20">
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 z-10 text-moviefy-gray-light hover:text-white transition-colors bg-black/50 p-2 rounded-full backdrop-blur-sm"
+          className="absolute top-4 right-4 z-10 text-moviefy-gray-light hover:text-white transition-colors bg-black/50 p-2 rounded-full backdrop-blur-sm"
         >
           <X className="h-6 w-6" />
         </button>
