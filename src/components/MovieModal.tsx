@@ -128,7 +128,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[85vh] max-h-[85vh]">
+        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[75vh] max-h-[75vh]">
           <DrawerHeader className="pb-0 pt-2 relative">
             <DrawerTitle className="sr-only">Movie Details</DrawerTitle>
             {/* Close Button for Mobile */}
