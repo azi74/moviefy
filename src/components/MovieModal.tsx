@@ -116,7 +116,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
       </div>
 
       {/* Fixed Action Buttons */}
-      <div className={`${isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-moviefy-gray-dark border-t border-moviefy-gray-medium' : 'absolute bottom-4 right-6'}`}>
+      <div className={`${isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-moviefy-black/95 backdrop-blur-sm border-t border-moviefy-gray-medium' : 'absolute bottom-4 right-6'}`}>
         <div className={`flex ${isMobile ? 'grid grid-cols-2 gap-3' : 'space-x-3'}`}>
           <Button className={`bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg px-6 text-sm hover-glow ${
             isMobile ? 'h-14 py-4' : ''
@@ -136,7 +136,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[85vh] max-h-[85vh]">
+        <DrawerContent className="bg-moviefy-black border-t border-moviefy-yellow/20 h-[85vh] max-h-[85vh]">
           <DrawerHeader className="pb-0 pt-2 relative">
             <DrawerTitle className="sr-only">Movie Details</DrawerTitle>
             {/* Close Button for Mobile */}
@@ -161,12 +161,12 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop with strong blur */}
       <div 
-        className="absolute inset-0 bg-black/70 backdrop-blur-strong"
+        className="absolute inset-0 bg-black/80 backdrop-blur-strong"
         onClick={onClose}
       />
       
       {/* Modal Content - Larger width */}
-      <div className="relative bg-moviefy-gray-dark rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden animate-scale-in border border-moviefy-yellow/20">
+      <div className="relative bg-moviefy-black rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden animate-scale-in border border-moviefy-yellow/20">
         {/* Close Button */}
         <button 
           onClick={onClose}

@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Sparkles, TrendingUp, Zap, Film } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -12,6 +12,7 @@ const Index = () => {
   const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
   const [showChatInterface, setShowChatInterface] = useState(false);
   const navigate = useNavigate();
+  const chatSectionRef = useRef<HTMLDivElement>(null);
 
   const handleMovieClick = (movie: any) => {
     setSelectedMovie({
@@ -30,6 +31,13 @@ const Index = () => {
       navigate('/trending');
     } else if (cardTitle === "AI Recommendations") {
       setShowChatInterface(true);
+      // Smooth scroll to chat section after a short delay to ensure it's rendered
+      setTimeout(() => {
+        chatSectionRef.current?.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
     }
   };
 
@@ -94,7 +102,7 @@ const Index = () => {
 
           {/* Chat Interface with Recommendations - Show conditionally */}
           {showChatInterface && (
-            <div className="mb-16 animate-fade-in">
+            <div ref={chatSectionRef} className="mb-16 animate-fade-in">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-white mb-4">
                   Ask Our AI Assistant

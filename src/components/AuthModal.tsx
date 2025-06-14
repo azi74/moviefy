@@ -87,7 +87,7 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
           <div className="w-full border-t border-moviefy-gray-medium"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-3 bg-moviefy-gray-dark text-moviefy-gray-light">or</span>
+          <span className="px-3 bg-moviefy-black text-moviefy-gray-light">or</span>
         </div>
       </div>
 
@@ -189,7 +189,7 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 animate-scale-in">
+        <DrawerContent className="bg-moviefy-black border-t border-moviefy-yellow/20 animate-scale-in">
           <DrawerHeader className="pb-0 pt-2">
             <DrawerTitle className="sr-only">Authentication</DrawerTitle>
             {/* Single Drag Handle */}
@@ -205,7 +205,7 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`bg-moviefy-gray-dark border-moviefy-yellow/20 text-white transition-all duration-500 ease-in-out ${
+      <DialogContent className={`bg-moviefy-black border-moviefy-yellow/20 text-white transition-all duration-500 ease-in-out ${
         isSignUp ? 'max-w-md' : 'max-w-sm'
       } animate-scale-in`}>
         <DialogHeader className="sr-only">
