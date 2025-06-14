@@ -7,6 +7,8 @@ import MovieCard from './MovieCard';
 import SeriesCard from './SeriesCard';
 import AnimeCard from './AnimeCard';
 import CompactMovieCard from './CompactMovieCard';
+import CompactSeriesCard from './CompactSeriesCard';
+import CompactAnimeCard from './CompactAnimeCard';
 import MovieModal from './MovieModal';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -439,14 +441,25 @@ const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
                   style={{ animationDelay: `${index * 0.1}s` }}
                   className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
                 >
-                  <SeriesCard
-                    title={series.title}
-                    image={series.image}
-                    year={series.year}
-                    genre={series.genre}
-                    rating={series.rating}
-                    seasons={series.seasons}
-                  />
+                  {isMobile ? (
+                    <CompactSeriesCard
+                      title={series.title}
+                      image={series.image}
+                      year={series.year}
+                      genre={series.genre}
+                      rating={series.rating}
+                      seasons={series.seasons}
+                    />
+                  ) : (
+                    <SeriesCard
+                      title={series.title}
+                      image={series.image}
+                      year={series.year}
+                      genre={series.genre}
+                      rating={series.rating}
+                      seasons={series.seasons}
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -465,14 +478,25 @@ const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
                   style={{ animationDelay: `${index * 0.1}s` }}
                   className="animate-fade-in md:flex-shrink-0 md:w-48 w-full"
                 >
-                  <AnimeCard
-                    title={anime.title}
-                    image={anime.image}
-                    year={anime.year}
-                    genre={anime.genre}
-                    rating={anime.rating}
-                    episodes={anime.episodes}
-                  />
+                  {isMobile ? (
+                    <CompactAnimeCard
+                      title={anime.title}
+                      image={anime.image}
+                      year={anime.year}
+                      genre={anime.genre}
+                      rating={anime.rating}
+                      episodes={anime.episodes}
+                    />
+                  ) : (
+                    <AnimeCard
+                      title={anime.title}
+                      image={anime.image}
+                      year={anime.year}
+                      genre={anime.genre}
+                      rating={anime.rating}
+                      episodes={anime.episodes}
+                    />
+                  )}
                 </div>
               ))}
             </div>

@@ -33,6 +33,11 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
     image: `https://images.unsplash.com/photo-${1500000000 + index}?w=100&h=100&fit=crop&crop=face`
   }));
 
+  // Truncate description to a shorter length
+  const truncatedDescription = movie.description.length > 300 
+    ? movie.description.substring(0, 300) + "..."
+    : movie.description;
+
   const MovieContent = () => (
     <div className="p-4 md:p-6">
       <div className="grid md:grid-cols-3 gap-4 md:gap-6">
@@ -46,7 +51,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
             />
           </div>
           
-          {/* Ratings - Compact */}
+          {/* Ratings - Compact with no bottom margin */}
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-moviefy-gray-medium p-2 rounded-lg text-center">
               <div className="text-moviefy-yellow text-lg font-bold">{movie.imdbRating}</div>
@@ -82,10 +87,10 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
             </div>
           </div>
 
-          {/* Description - More prominent */}
+          {/* Description - Shorter */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-3">Description</h3>
-            <p className="text-moviefy-gray-light text-sm md:text-base leading-relaxed">{movie.description}</p>
+            <p className="text-moviefy-gray-light text-sm md:text-base leading-relaxed">{truncatedDescription}</p>
           </div>
 
           {/* Cast - Compact grid */}
