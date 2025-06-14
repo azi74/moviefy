@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -266,6 +267,44 @@ const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
     }
   };
 
+  const handleSeriesClick = (series: any) => {
+    // Convert series to movie format for modal
+    const seriesAsMovie = {
+      ...series,
+      genre: Array.isArray(series.genre) ? series.genre : [series.genre],
+      imdbRating: series.rating,
+      rottenTomatoesScore: Math.floor(series.rating * 10),
+      description: "An epic television series that pushes the boundaries of storytelling. This masterpiece combines compelling characters with intricate plotlines that will keep you binge-watching episode after episode.",
+      cast: ["Outstanding Actor 1", "Talented Actress 2", "Renowned Actor 3", "Celebrated Actress 4"]
+    };
+    
+    if (onMovieClick) {
+      onMovieClick(seriesAsMovie);
+    } else {
+      setSelectedMovie(seriesAsMovie);
+      setShowMovieModal(true);
+    }
+  };
+
+  const handleAnimeClick = (anime: any) => {
+    // Convert anime to movie format for modal
+    const animeAsMovie = {
+      ...anime,
+      genre: Array.isArray(anime.genre) ? anime.genre : [anime.genre],
+      imdbRating: anime.rating,
+      rottenTomatoesScore: Math.floor(anime.rating * 10),
+      description: "An extraordinary anime that transcends traditional storytelling boundaries. This animated masterpiece combines stunning visuals with deep philosophical themes that will leave you contemplating long after the credits roll.",
+      cast: ["Voice Actor 1", "Voice Actress 2", "Legendary Voice Actor 3", "Acclaimed Voice Actress 4"]
+    };
+    
+    if (onMovieClick) {
+      onMovieClick(animeAsMovie);
+    } else {
+      setSelectedMovie(animeAsMovie);
+      setShowMovieModal(true);
+    }
+  };
+
   const currentStepData = chatSteps[currentStep];
 
   return (
@@ -449,6 +488,7 @@ const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
                       genre={series.genre}
                       rating={series.rating}
                       seasons={series.seasons}
+                      onClick={() => handleSeriesClick(series)}
                     />
                   ) : (
                     <SeriesCard
@@ -458,6 +498,7 @@ const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
                       genre={series.genre}
                       rating={series.rating}
                       seasons={series.seasons}
+                      onClick={() => handleSeriesClick(series)}
                     />
                   )}
                 </div>
@@ -486,6 +527,7 @@ const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
                       genre={anime.genre}
                       rating={anime.rating}
                       episodes={anime.episodes}
+                      onClick={() => handleAnimeClick(anime)}
                     />
                   ) : (
                     <AnimeCard
@@ -495,6 +537,7 @@ const ChatInterface = ({ onMovieClick }: ChatInterfaceProps) => {
                       genre={anime.genre}
                       rating={anime.rating}
                       episodes={anime.episodes}
+                      onClick={() => handleAnimeClick(anime)}
                     />
                   )}
                 </div>
