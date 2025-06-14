@@ -4,10 +4,25 @@ import Header from '@/components/Header';
 import MovieCard from '@/components/MovieCard';
 import SeriesCard from '@/components/SeriesCard';
 import AnimeCard from '@/components/AnimeCard';
+import MovieModal from '@/components/MovieModal';
 import Footer from '@/components/Footer';
 
 const Trending = () => {
   const [activeTab, setActiveTab] = useState('movies');
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
+
+  const handleContentClick = (content: any) => {
+    setSelectedMovie({
+      ...content,
+      genre: Array.isArray(content.genre) ? content.genre : [content.genre],
+      imdbRating: content.rating,
+      rottenTomatoesScore: Math.floor(content.rating * 10),
+      description: "An epic journey through time and space that challenges the very fabric of reality. This masterpiece combines stunning visuals with a mind-bending narrative that will leave you questioning everything you thought you knew about the universe. The film explores themes of memory, reality, and the subconscious mind through a complex multi-layered storyline that unfolds across different levels of dreams within dreams. Each layer presents its own unique challenges and dangers, creating a thrilling experience that keeps viewers engaged from start to finish. The exceptional cinematography and groundbreaking special effects work in harmony with a compelling score to create an unforgettable cinematic experience that pushes the boundaries of what's possible in modern filmmaking.",
+      cast: ["Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy", "Ellen Page"]
+    });
+    setIsMovieModalOpen(true);
+  };
 
   const trendingMovies = [
     {
@@ -129,6 +144,7 @@ const Trending = () => {
                   year={movie.year}
                   genre={movie.genre}
                   rating={movie.rating}
+                  onClick={() => handleContentClick(movie)}
                 />
               </div>
             ))}
@@ -146,6 +162,7 @@ const Trending = () => {
                   genre={series.genre}
                   rating={series.rating}
                   seasons={series.seasons}
+                  onClick={() => handleContentClick(series)}
                 />
               </div>
             ))}
@@ -163,6 +180,7 @@ const Trending = () => {
                   genre={anime.genre}
                   rating={anime.rating}
                   episodes={anime.episodes}
+                  onClick={() => handleContentClick(anime)}
                 />
               </div>
             ))}
@@ -212,6 +230,13 @@ const Trending = () => {
       </main>
 
       <Footer />
+
+      {/* Movie Modal */}
+      <MovieModal 
+        isOpen={isMovieModalOpen}
+        onClose={() => setIsMovieModalOpen(false)}
+        movie={selectedMovie}
+      />
     </div>
   );
 };
