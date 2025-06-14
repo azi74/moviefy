@@ -56,15 +56,15 @@ const Index = () => {
               Let our AI-powered assistant help you find the perfect movie, TV show, or anime based on your mood and preferences.
             </p>
 
-            {/* Feature Cards - Taller and more square */}
+            {/* Feature Cards - Reduced height and added hover animation */}
             <div className="grid md:grid-cols-3 gap-4 mt-16">
               {featureCards.map((card, index) => (
                 <div
                   key={index}
-                  className="bg-moviefy-gray-dark/50 border border-moviefy-gray-medium/30 rounded-xl p-8 cursor-pointer hover:border-moviefy-yellow/50 hover:bg-moviefy-gray-dark/70 transition-all duration-300 group aspect-square md:aspect-[4/5] flex flex-col justify-center"
+                  className="bg-moviefy-gray-dark/50 border border-moviefy-gray-medium/30 rounded-xl p-6 cursor-pointer hover:border-moviefy-yellow/50 hover:bg-moviefy-gray-dark/70 transition-all duration-300 group aspect-[4/3] flex flex-col justify-center hover:transform hover:scale-105 hover:shadow-lg hover:shadow-moviefy-yellow/20"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="flex flex-col items-center text-center space-y-3">
                     <div className="p-3 bg-moviefy-yellow/10 rounded-lg group-hover:bg-moviefy-yellow/20 transition-colors duration-300">
                       {card.icon}
                     </div>

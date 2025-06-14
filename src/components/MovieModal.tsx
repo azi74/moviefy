@@ -39,7 +39,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
     : movie.description;
 
   const MovieContent = () => (
-    <div className={`${isMobile ? 'pb-20' : 'pb-6'} relative`}>
+    <div className={`${isMobile ? 'pb-24' : 'pb-6'} relative`}>
       <div className="p-4 md:p-6">
         <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {/* Movie Poster - Smaller on desktop */}
@@ -116,12 +116,16 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
       </div>
 
       {/* Fixed Action Buttons */}
-      <div className={`${isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-moviefy-gray-dark border-t border-moviefy-gray-medium' : 'absolute bottom-4 right-6'}`}>
+      <div className={`${isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-moviefy-gray-dark border-t border-moviefy-gray-medium' : 'absolute bottom-4 left-6'}`}>
         <div className={`flex ${isMobile ? 'grid grid-cols-2 gap-3' : 'space-x-3'}`}>
-          <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg px-6 text-sm hover-glow">
+          <Button className={`bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg px-6 text-sm hover-glow ${
+            isMobile ? 'h-14 py-4' : ''
+          }`}>
             Watch Trailer
           </Button>
-          <Button variant="outline" className="border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-lg px-6 text-sm">
+          <Button variant="outline" className={`border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-lg px-6 text-sm ${
+            isMobile ? 'h-14 py-4' : ''
+          }`}>
             Add to List
           </Button>
         </div>
