@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Sparkles, TrendingUp, Zap, Film } from 'lucide-react';
 import Header from '@/components/Header';
 import ChatInterface from '@/components/ChatInterface';
@@ -9,19 +9,6 @@ import Footer from '@/components/Footer';
 const Index = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
-  const [showChatInterface, setShowChatInterface] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      // Show chat interface when user scrolls down half the viewport height
-      setShowChatInterface(scrollPosition > windowHeight * 0.5);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleMovieClick = (movie: any) => {
     setSelectedMovie({
@@ -62,8 +49,8 @@ const Index = () => {
       
       <main className="container mx-auto px-6 pt-24 pb-8">
         <div className="max-w-4xl mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-16 animate-fade-in min-h-[80vh] flex flex-col justify-center">
+          {/* Hero Section with Feature Cards */}
+          <div className="text-center mb-16 animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               Discover Your Next
               <span className="block text-moviefy-yellow">Favorite Movie</span>
@@ -93,20 +80,18 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Chat Interface - Shows on scroll */}
-          {showChatInterface && (
-            <div className="mb-16 animate-fade-in">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-white mb-4">
-                  Ask Our AI Assistant
-                </h2>
-                <p className="text-moviefy-gray-light">
-                  Describe what you're in the mood for, and we'll find the perfect match.
-                </p>
-              </div>
-              <ChatInterface onMovieClick={handleMovieClick} />
+          {/* Chat Interface with Recommendations */}
+          <div className="mb-16 animate-fade-in">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Ask Our AI Assistant
+              </h2>
+              <p className="text-moviefy-gray-light">
+                Describe what you're in the mood for, and we'll find the perfect match.
+              </p>
             </div>
-          )}
+            <ChatInterface onMovieClick={handleMovieClick} />
+          </div>
         </div>
       </main>
 
