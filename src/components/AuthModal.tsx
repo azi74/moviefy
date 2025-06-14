@@ -189,10 +189,10 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[70vh] max-h-[70vh] animate-scale-in">
+        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[90vh] max-h-[90vh] animate-scale-in">
           <DrawerHeader className="pb-0 pt-2">
             <DrawerTitle className="sr-only">Authentication</DrawerTitle>
-            {/* Drag Handle */}
+            {/* Single Drag Handle */}
             <div className="mx-auto mt-2 h-1.5 w-16 rounded-full bg-moviefy-gray-light/30" />
           </DrawerHeader>
           <div className="overflow-y-auto">

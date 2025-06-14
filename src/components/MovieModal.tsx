@@ -39,87 +39,91 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
     : movie.description;
 
   const MovieContent = () => (
-    <div className="p-4 md:p-6">
-      <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-        {/* Movie Poster - Smaller on desktop */}
-        <div className="md:col-span-1 space-y-3">
-          <div className={`${isMobile ? 'aspect-[3/4] max-w-[200px] mx-auto' : 'aspect-[2/3]'} rounded-lg md:rounded-xl overflow-hidden`}>
-            <img 
-              src={movie.image} 
-              alt={movie.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          
-          {/* Ratings - Compact with no bottom margin */}
-          <div className="grid grid-cols-2 gap-2">
-            <div className="bg-moviefy-gray-medium p-2 rounded-lg text-center">
-              <div className="text-moviefy-yellow text-lg font-bold">{movie.imdbRating}</div>
-              <div className="text-moviefy-gray-light text-xs">IMDB</div>
+    <div className={`${isMobile ? 'pb-20' : 'pb-6'} relative`}>
+      <div className="p-4 md:p-6">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+          {/* Movie Poster - Smaller on desktop */}
+          <div className="md:col-span-1 space-y-3">
+            <div className={`${isMobile ? 'aspect-[3/4] max-w-[200px] mx-auto' : 'aspect-[2/3]'} rounded-lg md:rounded-xl overflow-hidden`}>
+              <img 
+                src={movie.image} 
+                alt={movie.title}
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="bg-moviefy-gray-medium p-2 rounded-lg text-center">
-              <div className="text-moviefy-yellow text-lg font-bold">{movie.rottenTomatoesScore}%</div>
-              <div className="text-moviefy-gray-light text-xs">RT</div>
+            
+            {/* Ratings - Compact with no bottom margin */}
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-moviefy-gray-medium p-2 rounded-lg text-center">
+                <div className="text-moviefy-yellow text-lg font-bold">{movie.imdbRating}</div>
+                <div className="text-moviefy-gray-light text-xs">IMDB</div>
+              </div>
+              <div className="bg-moviefy-gray-medium p-2 rounded-lg text-center">
+                <div className="text-moviefy-yellow text-lg font-bold">{movie.rottenTomatoesScore}%</div>
+                <div className="text-moviefy-gray-light text-xs">RT</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Movie Details - More space */}
+          <div className="md:col-span-2 space-y-4">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">{movie.title}</h1>
+              
+              <div className="flex items-center flex-wrap gap-4 mb-4">
+                <div className="flex items-center space-x-2">
+                  <Calendar className="h-4 w-4 text-moviefy-yellow" />
+                  <span className="text-moviefy-gray-light text-sm">{movie.year}</span>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Film className="h-4 w-4 text-moviefy-yellow" />
+                  <span className="text-moviefy-gray-light text-sm">{movie.genre.join(', ')}</span>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Star className="h-4 w-4 text-moviefy-yellow fill-moviefy-yellow" />
+                  <span className="text-moviefy-gray-light text-sm">{movie.imdbRating}/10</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Description - Shorter */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Description</h3>
+              <p className="text-moviefy-gray-light text-sm md:text-base leading-relaxed">{truncatedDescription}</p>
+            </div>
+
+            {/* Cast - Compact grid */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Cast</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {castWithImages.slice(0, 6).map((actor, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <Avatar className="h-10 w-10 flex-shrink-0">
+                      <AvatarImage src={actor.image} alt={actor.name} />
+                      <AvatarFallback className="bg-moviefy-gray-medium text-moviefy-gray-light text-xs">
+                        {actor.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-moviefy-gray-light text-sm truncate">{actor.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Movie Details - More space */}
-        <div className="md:col-span-2 space-y-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">{movie.title}</h1>
-            
-            <div className="flex items-center flex-wrap gap-4 mb-4">
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-4 w-4 text-moviefy-yellow" />
-                <span className="text-moviefy-gray-light text-sm">{movie.year}</span>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Film className="h-4 w-4 text-moviefy-yellow" />
-                <span className="text-moviefy-gray-light text-sm">{movie.genre.join(', ')}</span>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Star className="h-4 w-4 text-moviefy-yellow fill-moviefy-yellow" />
-                <span className="text-moviefy-gray-light text-sm">{movie.imdbRating}/10</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Description - Shorter */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Description</h3>
-            <p className="text-moviefy-gray-light text-sm md:text-base leading-relaxed">{truncatedDescription}</p>
-          </div>
-
-          {/* Cast - Compact grid */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Cast</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {castWithImages.slice(0, 6).map((actor, index) => (
-                <div key={index} className="flex items-center space-x-3">
-                  <Avatar className="h-10 w-10 flex-shrink-0">
-                    <AvatarImage src={actor.image} alt={actor.name} />
-                    <AvatarFallback className="bg-moviefy-gray-medium text-moviefy-gray-light text-xs">
-                      {actor.name.split(' ').map(n => n[0]).join('')}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-moviefy-gray-light text-sm truncate">{actor.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex space-x-3 pt-3">
-            <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg px-6 text-sm hover-glow">
-              Watch Trailer
-            </Button>
-            <Button variant="outline" className="border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-lg px-6 text-sm">
-              Add to List
-            </Button>
-          </div>
+      {/* Fixed Action Buttons */}
+      <div className={`${isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-moviefy-gray-dark border-t border-moviefy-gray-medium' : 'absolute bottom-4 right-6'}`}>
+        <div className={`flex ${isMobile ? 'grid grid-cols-2 gap-3' : 'space-x-3'}`}>
+          <Button className="bg-moviefy-yellow text-moviefy-black hover:bg-moviefy-yellow-light rounded-lg px-6 text-sm hover-glow">
+            Watch Trailer
+          </Button>
+          <Button variant="outline" className="border-moviefy-yellow text-moviefy-yellow hover:bg-moviefy-yellow hover:text-moviefy-black rounded-lg px-6 text-sm">
+            Add to List
+          </Button>
         </div>
       </div>
     </div>
@@ -128,7 +132,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[75vh] max-h-[75vh]">
+        <DrawerContent className="bg-moviefy-gray-dark border-t border-moviefy-yellow/20 h-[85vh] max-h-[85vh]">
           <DrawerHeader className="pb-0 pt-2 relative">
             <DrawerTitle className="sr-only">Movie Details</DrawerTitle>
             {/* Close Button for Mobile */}
@@ -138,7 +142,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
             >
               <X className="h-5 w-5" />
             </button>
-            {/* Drag Handle */}
+            {/* Single Drag Handle */}
             <div className="mx-auto mt-2 h-1.5 w-16 rounded-full bg-moviefy-gray-light/30" />
           </DrawerHeader>
           <div className="overflow-y-auto flex-1">
@@ -158,7 +162,7 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
       />
       
       {/* Modal Content - Larger width */}
-      <div className="relative bg-moviefy-gray-dark rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-y-auto animate-scale-in border border-moviefy-yellow/20">
+      <div className="relative bg-moviefy-gray-dark rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden animate-scale-in border border-moviefy-yellow/20">
         {/* Close Button */}
         <button 
           onClick={onClose}
@@ -167,7 +171,9 @@ const MovieModal = ({ isOpen, onClose, movie }: MovieModalProps) => {
           <X className="h-6 w-6" />
         </button>
 
-        <MovieContent />
+        <div className="overflow-y-auto max-h-[85vh]">
+          <MovieContent />
+        </div>
       </div>
     </div>
   );
