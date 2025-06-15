@@ -126,9 +126,9 @@ const Trending = () => {
   ];
 
   const tabs = [
-    { id: 'movies', label: 'Movies', icon: Film },
-    { id: 'series', label: 'TV Shows', icon: Tv },
-    { id: 'anime', label: 'Anime', icon: Zap }
+    { id: 'movies', label: 'Movies', icon: Film, count: trendingMovies.length },
+    { id: 'series', label: 'TV Shows', icon: Tv, count: trendingSeries.length },
+    { id: 'anime', label: 'Anime', icon: Zap, count: trendingAnime.length }
   ];
 
   const renderContent = () => {
@@ -203,29 +203,106 @@ const Trending = () => {
             <h1 className="text-4xl font-bold text-white">Trending Now</h1>
           </div>
 
-          {/* Tabs */}
-          <div className="flex space-x-1 mb-8 bg-moviefy-gray-medium rounded-xl p-1">
-            {tabs.map((tab) => {
-              const IconComponent = tab.icon;
-              return (
-                <button
+          {/* Dynamic Tabs Container */}
+          <div className="relative mb-8">
+            {/* Tab Navigation */}
+            <div className="relative bg-moviefy-gray-medium/30 backdrop-blur-sm rounded-2xl p-1.5 border border-moviefy-gray-medium/20 shadow-xl">
+              {/* Background Slider */}
+              <div 
+                className="absolute top-1.5 h-[calc(100%-12px)] bg-gradient-to-r from-moviefy-yellow to-moviefy-yellow/90 rounded-xl transition-all duration-300 ease-out shadow-lg"
+                style={{
+                  width: `${100 / tabs.length}%`,
+                  left: `${(tabs.findIndex(tab => tab.id === activeTab) * 100) / tabs.length}%`,
+                }}
+              />
+              
+              {/* Tab Buttons */}
+              <div className="relative flex">
+                {tabs.map((tab, index) => {
+                  const IconComponent = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`relative flex-1 flex items-center justify-center space-x-2 md:space-x-3 px-3 md:px-6 py-3 md:py-4 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 ease-out transform hover:scale-105 group ${
+                        isActive
+                          ? 'text-moviefy-black z-10'
+                          : 'text-moviefy-gray-light hover:text-white'
+                      }`}
+                      style={{ 
+                        animationDelay: `${index * 0.1}s`,
+                      }}
+                    >
+                      {/* Icon with enhanced animations */}
+                      <div className={`relative transition-all duration-300 ${
+                        isActive ? 'scale-110' : 'group-hover:scale-110'
+                      }`}>
+                        <IconComponent className={`h-4 w-4 md:h-5 md:w-5 transition-all duration-300 ${
+                          isActive 
+                            ? 'drop-shadow-sm' 
+                            : 'group-hover:text-moviefy-yellow'
+                        }`} />
+                        
+                        {/* Glow effect for active tab */}
+                        {isActive && (
+                          <div className="absolute inset-0 -z-10">
+                            <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-moviefy-yellow/30 blur-sm" />
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Label with count */}
+                      <div className="flex items-center space-x-1.5">
+                        <span className={`transition-all duration-300 ${
+                          isActive ? 'font-bold' : 'group-hover:text-moviefy-yellow'
+                        }`}>
+                          {tab.label}
+                        </span>
+                        
+                        {/* Count badge */}
+                        <div className={`hidden md:flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-xs font-bold transition-all duration-300 ${
+                          isActive 
+                            ? 'bg-moviefy-black/20 text-moviefy-black' 
+                            : 'bg-moviefy-yellow/10 text-moviefy-yellow group-hover:bg-moviefy-yellow/20'
+                        }`}>
+                          {tab.count}
+                        </div>
+                      </div>
+
+                      {/* Ripple effect on click */}
+                      <div className="absolute inset-0 rounded-xl overflow-hidden">
+                        <div className={`absolute inset-0 bg-white/10 transform scale-0 group-active:scale-100 transition-transform duration-150 rounded-xl ${
+                          !isActive ? 'group-active:animate-ping' : ''
+                        }`} />
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Progress indicator */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {tabs.map((tab, index) => (
+                <div
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                    activeTab === tab.id
-                      ? 'bg-moviefy-yellow text-moviefy-black'
-                      : 'text-moviefy-gray-light hover:text-white'
+                  className={`h-1 rounded-full transition-all duration-300 ${
+                    activeTab === tab.id 
+                      ? 'w-8 bg-moviefy-yellow' 
+                      : 'w-2 bg-moviefy-gray-medium hover:bg-moviefy-yellow/50 cursor-pointer'
                   }`}
-                >
-                  <IconComponent className="h-5 w-5" />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
+                  onClick={() => setActiveTab(tab.id)}
+                />
+              ))}
+            </div>
           </div>
 
-          {/* Content */}
-          {renderContent()}
+          {/* Content with fade transition */}
+          <div key={activeTab} className="animate-fade-in">
+            {renderContent()}
+          </div>
         </div>
       </main>
 
