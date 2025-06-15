@@ -7,7 +7,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="relative mt-16">
+      <footer className="relative mt-4">
         {/* Glass-like background */}
         <div className="absolute inset-0 bg-gradient-to-t from-moviefy-black/80 via-moviefy-gray-dark/40 to-transparent backdrop-blur-md border-t border-white/10"></div>
         

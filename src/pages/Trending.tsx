@@ -192,10 +192,10 @@ const Trending = () => {
   };
 
   return (
-    <div className="min-h-screen bg-moviefy-black">
+    <div className="min-h-screen flex flex-col bg-moviefy-black">
       <Header />
       
-      <main className="container mx-auto px-6 pt-24 pb-8">
+      <main className="container flex-auto mx-auto px-6 pt-24 pb-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex items-center space-x-3 mb-8">

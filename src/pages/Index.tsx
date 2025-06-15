@@ -60,10 +60,10 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-moviefy-black">
+    <div className="min-h-screen flex flex-col bg-moviefy-black">
       <Header />
       
-      <main className="container mx-auto px-6 pt-24 pb-8">
+      <main className="container flex-grow mx-auto px-6 pt-24 pb-8">
         <div className="max-w-4xl mx-auto">
           {/* Hero Section with Feature Cards */}
           <div className="text-center mb-16 animate-fade-in">
