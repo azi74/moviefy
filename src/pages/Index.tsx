@@ -1,7 +1,8 @@
-
 import { useState, useRef } from 'react';
 import { Sparkles, TrendingUp, Zap, Film } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getTrendingMovies } from '../api/movieApi';
 import Header from '@/components/Header';
 import ChatInterface from '@/components/ChatInterface';
 import MovieModal from '@/components/MovieModal';
@@ -13,15 +14,18 @@ const Index = () => {
   const [showChatInterface, setShowChatInterface] = useState(false);
   const navigate = useNavigate();
   const chatSectionRef = useRef<HTMLDivElement>(null);
+  const { data: trendingMovies, isLoading } = useQuery({
+    queryKey: ['trending'],
+    queryFn: getTrendingMovies,
+  });
 
-  const handleMovieClick = (movie: any) => {
+  const handleMovieClick = (movie) => {
     setSelectedMovie({
       ...movie,
-      genre: Array.isArray(movie.genre) ? movie.genre : [movie.genre],
-      imdbRating: movie.rating || movie.imdbRating,
-      rottenTomatoesScore: Math.floor((movie.rating || movie.imdbRating) * 10),
-      description: "An epic journey through time and space that challenges the very fabric of reality. This masterpiece combines stunning visuals with a mind-bending narrative that will leave you questioning everything you thought you knew about the universe.",
-      cast: ["Leonardo DiCaprio", "Marion Cotillard", "Tom Hardy", "Ellen Page"]
+      genre: movie.genres || ['Unknown'],
+      imdbRating: movie.vote_average,
+      description: movie.overview,
+      cast: movie.credits?.cast?.slice(0, 4).map(actor => actor.name) || []
     });
     setIsMovieModalOpen(true);
   };
@@ -45,7 +49,8 @@ const Index = () => {
     {
       icon: <TrendingUp className="h-6 w-6 text-moviefy-yellow" />,
       title: "Trending Now",
-      description: "Discover what's hot and popular"
+      description: "Discover what's hot and popular",
+      onClick: () => navigate('/trending')
     },
     {
       icon: <Sparkles className="h-6 w-6 text-moviefy-yellow" />,
