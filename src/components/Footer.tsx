@@ -13,10 +13,7 @@ const Footer = () => {
         
         <div className="relative container mx-auto px-6 py-8">
           <div className="text-center">
-            <div className="flex items-center justify-center space-x-8">
-              <div className="text-moviefy-gray-light text-sm">
-                © 2024 moviefy. All rights reserved.
-              </div>
+            <div className="flex items-center justify-center">
               <button
                 onClick={() => setIsContactOpen(true)}
                 className="text-moviefy-yellow hover:text-moviefy-yellow-light transition-colors text-sm font-medium hover:scale-105 transform duration-200"
