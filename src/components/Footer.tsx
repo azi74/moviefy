@@ -12,18 +12,16 @@ const Footer = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-moviefy-black/80 via-moviefy-gray-dark/40 to-transparent backdrop-blur-md border-t border-white/10"></div>
         
         <div className="relative container mx-auto px-6 py-8">
-          <div className="text-center space-y-4">
-            <div className="text-moviefy-gray-light text-sm">
+          <div className="flex items-center justify-center gap-4 text-sm">
+            <div className="text-moviefy-gray-light">
               © 2025 moviefy
             </div>
-            <div className="flex items-center justify-center">
-              <button
-                onClick={() => setIsContactOpen(true)}
-                className="text-moviefy-yellow hover:text-moviefy-yellow-light transition-colors text-sm font-medium hover:scale-105 transform duration-200"
-              >
-                Contact
-              </button>
-            </div>
+            <button
+              onClick={() => setIsContactOpen(true)}
+              className="text-moviefy-gray-light hover:text-white transition-colors text-sm"
+            >
+              Contact
+            </button>
           </div>
         </div>
       </footer>
