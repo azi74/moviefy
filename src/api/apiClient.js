@@ -22,22 +22,22 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    
+    // Don't try to refresh if it's already a refresh request or login
+    if (error.response?.status === 401 && 
+        !originalRequest.url.includes('/auth/refresh') &&
+        !originalRequest.url.includes('/auth/login')) {
       try {
-        const { data } = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/auth/refresh`,
-          {},
-          { withCredentials: true }
-        );
-        localStorage.setItem('accessToken', data.accessToken);
-        return apiClient(originalRequest);
+        // Remove this refresh attempt since your backend doesn't have it
+        // Just clear tokens and let the app handle it
+        localStorage.removeItem('accessToken');
+        return Promise.reject(error);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
-        window.location.href = '/login';
         return Promise.reject(refreshError);
       }
     }
+    
     return Promise.reject(error);
   }
 );

@@ -1,7 +1,15 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getCurrentUser } from '../api/authApi';
 
-const AuthContext = createContext({
+interface AuthContextType {
+  user: any;
+  isLoading: boolean;
+  setUser: (user: any) => void;
+  login: (userData: any) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: true,
   setUser: () => {},
@@ -9,34 +17,32 @@ const AuthContext = createContext({
   logout: () => Promise.resolve(),
 });
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const checkAuth = async () => {
+    try {
+      const userData = await getCurrentUser();
+      setUser(userData);
+    } catch (error) {
+      setUser(null);
+      // Don't redirect here - let individual pages handle unauthorized state
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { data } = await getCurrentUser();
-        setUser(data);
-      } catch (error) {
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     checkAuth();
   }, []);
 
-  const login = async (credentials) => {
-    const { data } = await login(credentials);
-    setUser(data.user);
-    localStorage.setItem('accessToken', data.tokens.accessToken);
+  const login = async (userData: any) => {
+    setUser(userData);
   };
 
   const logout = async () => {
-    await logout();
     setUser(null);
-    localStorage.removeItem('accessToken');
   };
 
   return (
